@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>Exponent Madness</title>
+<script>
+var num = 1; // number that we are increasing
+var countdown = 0; // counter for the button cooldown
+function update(set,get){ // for updating display
+	document.getElementById(set).innerHTML=get
+}
+function step() { // clicks button
+	if(countdown==0) {
+		num = num*1.5; // updates number
+		update("numDisplay",num); // update number on the page
+		countdown = 3000; // reset cooldown timer
+	}
+	else return 0;
+}
+function updateCountdown() { // updates the cooldown timer
+	if(countdown>50) countdown = countdown-50;
+if(countdown<=50&&countdown>=0) countdown = 0;
+}
+setInterval(updateCountdown,50);
+</script>
+</head>
+<body>
+Number: <div id="numDisplay">1</div>
+<button onclick="step()">Multiply the number by 1.5</button>
+</body>
+</html>
+
