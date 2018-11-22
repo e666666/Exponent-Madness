@@ -41,7 +41,7 @@ function microPrestige() {
                 mult: 1.5,
                 countdown: 0,
                 microPrestige:{
-                        essence: game.microPrestige.essence+1,//for now
+                        essence: game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
                         essenceMult: game.microPrestige.essenceMult
                 },
@@ -189,7 +189,22 @@ function load(save) {
 	try {
 		game=JSON.parse(atob(save))
 	if(game.mult===undefined) game.mult = 1.5; // lines for making saves back-compatible
-	if(game.microEssence===undefined) game.microEssence = 0;
+	if(game.normCountdown===undefined) game.normCountdown = 3000;
+	if(game.microPrestige===undefined) game.microPrestige = {
+		essence:0,
+		times:0,
+		essenceMult:1};
+	if(game.version===undefined) game.version = 0.2;
+	if(game.Aupgs===undefined) game.Aupgs = Aupgs = {
+		possible:["A1","A2","A3","A4","A5","A6","A7"],
+		cost:[       1,   1,   2,   5,  10, 18,  50],
+		repeatable:{
+			amount:0,
+			cost:25,
+			costMult:1.5
+			},
+		upgrades:[]//the var for storing the stuff
+}	
 	update("numDisplay",game.num);
 	update("countdownDisplay",game.countdown);
 	update("notationDisplay",game.notation);
@@ -210,12 +225,7 @@ function importGame() {
 }
 function hardReset() {
 	if(confirm("Are you sure you want to hard reset? This will erase all your progress.")) {
-		game = {
-			num: 1,
-			mult: 1.5,
-			countdown: 0,
-			notation: 0
-		}
+		game = getDefaultSave();
 	}
 }
 
