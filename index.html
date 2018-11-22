@@ -2,9 +2,11 @@
 <head>
 <title>Exponent Madness</title>
 <script>
-var num = 1; // number that we are increasing
-var countdown = 0; // counter for the button cooldown
-var notation = 0;// standard notation - clearly the best notation!
+var game = { // game object to store all save-pertinent info
+	num: 1, // number that we are increasing
+	countdown: 0, // counter for the button cooldown
+notation: 0// standard notation - clearly the best notation!
+}
 var currentTab = "main";
 	var notationArray = ["Standard","Scientific","Engineering","Logarithm"];
 function update(set,get){ // for updating display
@@ -46,34 +48,69 @@ function format(a) { // formats numbers for display
 	if(notation==2) return m2+"e"+e2; // engineering notation
 }
 function step() { // clicks button
-	if(countdown==0) {
-		num = num*1.5; // updates number
-		update("numDisplay",format(num)); // update number on the page
-		countdown = 3000; // reset cooldown timer
+	if(game.countdown==0) {
+		game.num = game.num*1.5; // updates number
+		update("numDisplay",format(game.num)); // update number on the page
+		game.countdown = 3000; // reset cooldown timer
 		update("countdownDisplay",3); 
 	}
 	else return 0;
 }
 function switchNotation() { // for switching between notations
-	notation++;
-	if(notation>notationArray.length-1) notation=0;
-	update("notationDisplay",notationArray[notation]);
+	game.notation++;
+	if(game.notation>notationArray.length-1) game.notation=0;
+	update("notationDisplay",notationArray[game.notation]);
 }
 function switchTab(tabName) { // alternates between the various tabs
 	hideElement(currentTab);
 	showElement(tabName);
 	currentTab=tabName;
 }
-function updateThings() { // various updates on each tick
-	update("numDisplay",format(num));
-	if(countdown>50) countdown = countdown-50;
-	if(countdown<=50&&countdown>=0) countdown = 0;
-	update("countdownDisplay",countdown/1000); // update the displayed time
+function save() { //save game
+	localStorage.setItem('save',btoa(JSON.stringify(game)))
 }
-setInterval(updateThings,50);
+function load(save) {
+	try {
+		game=JSON.parse(atob(save))
+	update("numDisplay",game.num);
+	update("countdownDisplay",game.countdown);
+	update("notationDisplay",game.notation);
+	} catch (e) {
+		console.log('Your save failed to load: '+e)
+	}
+}
+function exportGame() {
+	var savefile=btoa(JSON.stringify(game))
+	showElement("exportInfo")
+	document.getElementById("exportSave").value=btoa(JSON.stringify(game))
+}	
+function importGame() {
+	var input=prompt('Paste in your exported save and press enter.')
+	load(input)
+}
+function hardReset() {
+	if(confirm("Are you sure you want to hard reset? This will erase all your progress.")) {
+		game = {
+			num: 1,
+			countdown: 0,
+			notation: 0
+		}
+	}
+}
+function updateThings() { // various updates on each tick
+	update("numDisplay",format(game.num));
+	if(game.countdown>50) game.countdown = game.countdown-50;
+	if(game.countdown<=50&&game.countdown>=0) game.countdown = 0;
+	update("countdownDisplay",game.countdown/1000); // update the displayed time
+}
+function init() { // initialize
+	if(localStorage.getItem('save')!=null) load(localStorage.getItem('save'))
+}
+	setInterval(updateThings,50);
+	setInterval(save,10000);
 </script>
 </head>
-<body>
+<body onload="init()">
 Number: <div id="numDisplay">1</div>
 <button onclick="switchTab('main')">Main</button>
 <button onclick="switchTab('options')">Options</button>
@@ -82,7 +119,12 @@ Number: <div id="numDisplay">1</div>
 You can multiply the number again in <div id="countdownDisplay">0</div> seconds.
 </div>
 <div id="options" style="display:none">
+<button onclick="save()">Save</button>
+<button onclick="importGame()">import</save>
+<button onclick="exportGame()">Export</button>
 <button onclick="switchNotation()">Notation: <div id="notationDisplay">Standard</div></button>
+<button onclick="hardReset()">Reset the game</button>
+<span id="exportInfo" style="display:none">Here is your export save:<input id="exportSave"></input></span>
 </div>
 </body>
 </html>
