@@ -1,5 +1,5 @@
 function getDefaultSave(){
-        return game = { // game object to store all save-pertinent info
+        return var game = { // game object to store all save-pertinent info
 	        num: 1, // number that we are increasing
 	        mult: 1.5, // number that it multiplies by on click
         	countdown: 0, // counter for the button cooldown
@@ -9,9 +9,9 @@ function getDefaultSave(){
                         times:0,
                         essenceMult:1},
         	notation: 0,// standard notation - clearly the best notation!
-                version : 0.2
+                version : 0.2,
                 Aupgs:{
-                        possible:["A1","A2","A3","A4","A5","A6,"A7"],
+                       possible:["A1","A2","A3","A4","A5","A6","A7"],
                        cost:[       1,   1,   2,   5,  10, 18,  50],
                        repeatable:{
                                amount:0,
@@ -24,7 +24,7 @@ function getDefaultSave(){
 }
 
 
-game = getDefaultSave()
+var game = getDefaultSave()
 
 function updateBaseClick(){
         game.mult = 1.5
