@@ -48,7 +48,7 @@ function microPrestige() {
                 notation: game.notation,
                 version:game.version,
                 Aupgs: game.Aupgs
-                }
+        }
         updateBaseClick()
 }
 
