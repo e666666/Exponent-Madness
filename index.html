@@ -24,7 +24,8 @@ var game = { // game object to store all save-pertinent info
 	num: 1, // number that we are increasing
 	mult: 1.5, // number that it multiplies by on click
 	countdown: 0, // counter for the button cooldown
-notation: 0// standard notation - clearly the best notation!
+	microEssence: 0,
+	notation: 0// standard notation - clearly the best notation!
 }
 var currentTab = "main";
 	var notationArray = ["Standard","Scientific","Engineering","Logarithm"];
@@ -92,10 +93,12 @@ function load(save) {
 	try {
 		game=JSON.parse(atob(save))
 	if(game.mult===undefined) game.mult = 1.5; // lines for making saves back-compatible
+	if(game.microEssence===undefined) game.microEssence = 0;
 	update("numDisplay",game.num);
 	update("countdownDisplay",game.countdown);
 	update("notationDisplay",game.notation);
 	update("multDisplay",game.mult);
+	update("microEssenceDisplay",game.microEssence);
 	} catch (e) {
 		console.log('Your save failed to load: '+e)
 	}
@@ -119,6 +122,18 @@ function hardReset() {
 		}
 	}
 }
+function microPrestige() {
+	showElement("microEssenceInfo");
+	showElement("increaseNumber");
+	hideElement("microPrestigeElement");
+	game = {
+		num: 1,
+		mult: 1.5,
+		countdown: 0,
+		microEssence: game.microEssence+1,
+		notation: 0
+	}
+}
 function updateThings() { // various updates on each tick
 	var ooms = Math.floor(Math.log10(game.num));
 	update("numDisplay",format(game.num));
@@ -128,6 +143,11 @@ function updateThings() { // various updates on each tick
 	if(game.num<1e6) game.mult = 1.5;
 	if(game.num>=1e6) game.mult = 1.5*(1+0.0025*(ooms-5));
 	update("multDisplay",format(game.mult));
+	if(game.num>=1e33) { // Number overflow?
+		hideElement("increaseNumber");
+		showElement("microPrestigeElement");
+	}
+	update("microEssenceDisplay",game.microEssence);
 }
 function init() { // initialize
 	if(localStorage.getItem('save')!=null) load(localStorage.getItem('save'))
@@ -138,11 +158,18 @@ function init() { // initialize
 </head>
 <body onload="init()">
 Number: <div id="numDisplay">1</div>
+<div id="microEssenceInfo" style="display:none">Micro Essence: <div id="microEssenceDisplay">0</div></div>
 <button class="button" onclick="switchTab('main')">Main</button>
 <button class="button" onclick="switchTab('options')">Options</button>
 <div id="main" style="display:inline-block">
+<div id="increaseNumber">
 <button class="button" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div></button>
 You can multiply the number again in <div id="countdownDisplay">0</div> seconds.
+</div>
+<div id="microPrestigeElement" style="display:none">
+Your number has overflowed, you must reset to continue.
+<button class="button" onclick="microPrestige()">Reset your number, but gain Micro essence for upgrades.</button>
+</div>
 </div>
 <div id="options" style="display:none">
 <button class="button" onclick="save()">Save</button>
