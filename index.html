@@ -22,6 +22,7 @@ body{
 <script>
 var game = { // game object to store all save-pertinent info
 	num: 1, // number that we are increasing
+	mult: 1.5, // number that it multiplies by on click
 	countdown: 0, // counter for the button cooldown
 notation: 0// standard notation - clearly the best notation!
 }
@@ -67,7 +68,7 @@ function format(a) { // formats numbers for display
 }
 function step() { // clicks button
 	if(game.countdown==0) {
-		game.num = game.num*1.5; // updates number
+		game.num = game.num*game.mult; // updates number
 		update("numDisplay",format(game.num)); // update number on the page
 		game.countdown = 3000; // reset cooldown timer
 		update("countdownDisplay",3); 
@@ -90,9 +91,11 @@ function save() { //save game
 function load(save) {
 	try {
 		game=JSON.parse(atob(save))
+	if(game.mult===undefined) game.mult = 1.5; // lines for making saves back-compatible
 	update("numDisplay",game.num);
 	update("countdownDisplay",game.countdown);
 	update("notationDisplay",game.notation);
+	update("multDisplay",game.mult);
 	} catch (e) {
 		console.log('Your save failed to load: '+e)
 	}
@@ -110,16 +113,21 @@ function hardReset() {
 	if(confirm("Are you sure you want to hard reset? This will erase all your progress.")) {
 		game = {
 			num: 1,
+			mult: 1.5,
 			countdown: 0,
 			notation: 0
 		}
 	}
 }
 function updateThings() { // various updates on each tick
+	var ooms = Math.floor(Math.log10(game.num));
 	update("numDisplay",format(game.num));
 	if(game.countdown>50) game.countdown = game.countdown-50;
 	if(game.countdown<=50&&game.countdown>=0) game.countdown = 0;
 	update("countdownDisplay",game.countdown/1000); // update the displayed time
+	if(game.num<1e6) game.mult = 1.5;
+	if(game.num>=1e6) game.mult = 1.5*(1+0.0025*(ooms-5));
+	update("multDisplay",format(game.mult));
 }
 function init() { // initialize
 	if(localStorage.getItem('save')!=null) load(localStorage.getItem('save'))
@@ -133,7 +141,7 @@ Number: <div id="numDisplay">1</div>
 <button class="button" onclick="switchTab('main')">Main</button>
 <button class="button" onclick="switchTab('options')">Options</button>
 <div id="main" style="display:inline-block">
-<button class="button" onclick="step()">Multiply the number by 1.5</button>
+<button class="button" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div></button>
 You can multiply the number again in <div id="countdownDisplay">0</div> seconds.
 </div>
 <div id="options" style="display:none">
