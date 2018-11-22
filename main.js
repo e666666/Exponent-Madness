@@ -78,6 +78,54 @@ function step() { // clicks button
 }
 
 
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+// A section
+
+function buyAupg(number){
+	var cost = game.Aupgs.cost[number-1]
+	if (game.microPrestige.essence >= cost && game.Aupgs.upgrades.length == number-1){
+		game.microPrestige.essence -= cost
+		game.Aupgs.upgrades.push(game.Aupgs.possible[number-1])
+	}
+}
+
+function buyRepeatA(){
+	var cost = game.Aupgs.repeatable.cost
+	if  (game.microPrestige.essence >= cost){
+		game.microPrestige.essence -= cost
+		game.Aupgs.repeatable.amount += 1
+		game.Aupgs.repeatable.cost *= game.Aupgs.repeatable.costMult
+		game.Aupgs.repeatable.cost = Math.floor(game.Aupgs.repeatable.cost)
+	}
+}
+function buyMaxRepeatA(){
+	while (game.Aupgs.repeatable.cost <= game.microPrestige.essence){
+		buyRepeatA()
+	}
+}
+
+
+
+
 
 
 //below is all the display funcs
