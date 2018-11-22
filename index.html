@@ -1,6 +1,24 @@
 <html>
 <head>
-<title>Exponent Madness</title>
+<style>
+body{
+  background-color: tan
+}
+
+.button {
+    background-color: #8B4513; /* Green */
+    border: none;
+    color: #DEB887;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+  </style>
+  <title>Exponent Madness</title>
 <script>
 var game = { // game object to store all save-pertinent info
 	num: 1, // number that we are increasing
@@ -112,18 +130,18 @@ function init() { // initialize
 </head>
 <body onload="init()">
 Number: <div id="numDisplay">1</div>
-<button onclick="switchTab('main')">Main</button>
-<button onclick="switchTab('options')">Options</button>
+<button class="button" onclick="switchTab('main')">Main</button>
+<button class="button" onclick="switchTab('options')">Options</button>
 <div id="main" style="display:inline-block">
-<button onclick="step()">Multiply the number by 1.5</button>
+<button class="button" onclick="step()">Multiply the number by 1.5</button>
 You can multiply the number again in <div id="countdownDisplay">0</div> seconds.
 </div>
 <div id="options" style="display:none">
-<button onclick="save()">Save</button>
-<button onclick="importGame()">Import</save>
-<button onclick="exportGame()">Export</button>
-<button onclick="switchNotation()">Notation: <div id="notationDisplay">Standard</div></button>
-<button onclick="hardReset()">Reset the game</button>
+<button class="button" onclick="save()">Save</button>
+<button class="button" onclick="importGame()">Import</save>
+<button class="button" onclick="exportGame()">Export</button>
+<button class="button" onclick="switchNotation()">Notation: <div id="notationDisplay">Standard</div></button>
+<button class="button" onclick="hardReset()">Reset the game</button>
 <span id="exportInfo" style="display:none">Here is your export save:<input id="exportSave"></input></span>
 </div>
 </body>
