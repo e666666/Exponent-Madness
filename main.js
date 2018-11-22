@@ -3,7 +3,7 @@ function getDefaultSave(){
 	        num: 1, // number that we are increasing
 	        mult: 1.5, // number that it multiplies by on click
         	countdown: 0, // counter for the button cooldown
-                normCountdown: 3000,
+		normCountdown: 3000,
         	microPrestige:{
                         essence:0,
                         times:0,
