@@ -1,33 +1,33 @@
+<!DOCTYPE html>
 <html>
-<head>
-<title>Exponent Madness</title>
-<script>
-
-</script>
-</head>
-<body onload="init()">
-Number: <div id="numDisplay">1</div>
-<div id="microEssenceInfo" style="display:none">Micro Essence: <div id="microEssenceDisplay">0</div></div>
-<button class="button" onclick="switchTab('main')">Main</button>
-<button class="button" onclick="switchTab('options')">Options</button>
-<div id="main" style="display:inline-block">
-<div id="increaseNumber">
-<button class="button" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div></button>
-You can multiply the number again in <div id="countdownDisplay">0</div> seconds.
-</div>
-<div id="microPrestigeElement" style="display:none">
-Your number has overflowed, you must reset to continue.
-<button class="button" onclick="microPrestige()">Reset your number, but gain Micro essence for upgrades.</button>
-</div>
-</div>
-<div id="options" style="display:none">
-<button class="button" onclick="save()">Save</button>
-<button class="button" onclick="importGame()">Import</save>
-<button class="button" onclick="exportGame()">Export</button>
-<button class="button" onclick="switchNotation()">Notation: <div id="notationDisplay">Standard</div></button>
-<button class="button" onclick="hardReset()">Reset the game</button>
-<span id="exportInfo" style="display:none">Here is your export save:<input id="exportSave"></input></span>
-</div>
-</body>
+        <head>
+                <title>Exponent Madness</title>
+                <script src= "main.js"></script>
+                <link rel="stylesheet" type="text/css" href="style.css">
+        </head>
+        <body onload="init()">
+                Number: <div id="numDisplay">1</div>
+                <div id="microEssenceInfo" style="display:none">Micro Essence: <div id="microEssenceDisplay">0</div></div>
+                <button class="button" onclick="switchTab('main')">Main</button>
+                <button class="button" onclick="switchTab('options')">Options</button>
+                <div id="main" style="display:inline-block">
+                <div id="increaseNumber">
+                <button class="button" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div></button>
+                You can multiply the number again in <div id="countdownDisplay">0</div> seconds.
+                </div>
+                <div id="microPrestigeElement" style="display:none">
+                Your number has overflowed, you must reset to continue.
+                <button class="button" onclick="microPrestige()">Reset your number, but gain Micro essence for upgrades.</button>
+                </div>
+                </div>
+                <div id="options" style="display:none">
+                        <button class="button" onclick="save()">Save</button>
+                        <button class="button" onclick="importGame()">Import</save>
+                        <button class="button" onclick="exportGame()">Export</button>
+                        <button class="button" onclick="switchNotation()">Notation: <div id="notationDisplay">Standard</div></button>
+                        <button class="button" onclick="hardReset()">Reset the game</button>
+                        <span id="exportInfo" style="display:none">Here is your export save:<input id="exportSave"></input></span>
+                </div>
+        </body>
 </html>
 
