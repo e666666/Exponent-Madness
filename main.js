@@ -54,7 +54,8 @@ function microPrestige() {
 
 function getPrecentageGrowthFactor(){
         var mult = 1
-        if (game.Aupgs.upgrades.includes("A2")) mult += 0.012*Math.floor(Math.log10(game.number))
+	if (game.number > 1e5) mult = 1 + 0.0025*Math.max(0,Math.floor(Math.log10(game.number))-5) // the alway additive mult
+        if (game.Aupgs.upgrades.includes("A2")) mult *= 1+ 0.012*Math.floor(Math.log10(game.number))
         return mult
 }
 
