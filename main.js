@@ -9,16 +9,16 @@ function getDefaultSave(){
                         times:0,
                         essenceMult:1},
         	notation: 0,// standard notation - clearly the best notation!
-                version : 0.2,
-                Aupgs:{
-                       possible:["A1","A2","A3","A4","A5","A6","A7"],
-                       cost:[       1,   1,   2,   5,  10, 18,  50],
-                       repeatable:{
-                               amount:0,
-                               cost:25,
-                               costMult:1.5
-                      },
-                      upgrades:[]//the var for storing the stuff
+		version : 0.2,
+		Aupgs:{
+                	possible:["A1","A2","A3","A4","A5","A6","A7"],
+                        cost:[       1,   1,   2,   5,  10, 18,  50],
+                        repeatable:{
+                        	amount:0,
+                                cost:25,
+                                costMult:1.5
+               		},
+                        upgrades:[]//the var for storing the stuff
              }
         }
 }
