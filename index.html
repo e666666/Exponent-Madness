@@ -40,12 +40,12 @@ function format(a) { // formats numbers for display
 		e++;
 	}
 	if(a<1000) return Math.round(a*1000)/1000; // show up to 3 places
-	if (notation==1) return m+"e"+e; // scientific notation
-	if (notation==3) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
+	if (game.notation==1) return m+"e"+e; // scientific notation
+	if (game.notation==3) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
 	var m2 = Math.round(1000*m*Math.pow(10,e-e2))/1000; // base in engineering and standard notations
-	if(notation==0) return m2+abbreviate(e2/3-1); // standard notation
-	if(notation==2) return m2+"e"+e2; // engineering notation
+	if(game.notation==0) return m2+abbreviate(e2/3-1); // standard notation
+	if(game.notation==2) return m2+"e"+e2; // engineering notation
 }
 function step() { // clicks button
 	if(game.countdown==0) {
