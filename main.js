@@ -34,6 +34,7 @@ function updateBaseClick(){
 
 function microPrestige() {
 	showElement("microEssenceInfo");
+	showElement("microPrestigeTab");
 	showElement("increaseNumber");
 	hideElement("microPrestigeElement");
 	game = {
@@ -63,7 +64,7 @@ function getCurrentClickAmt(){
         var base = game.mult
         if (game.Aupgs.upgrades.includes("A7") && game.number < 1e33) base *= 5
         base *= getPrecentageGrowthFactor()
-        if (game.Aupgs.upgrades.includes("A6")) base *= 1+Math.log10(game.microPrestige.times)/400
+        if (game.Aupgs.upgrades.includes("A6")) base *= 1+Math.log10(game.microPrestige.times)/10
         return base
 }
 
@@ -242,6 +243,8 @@ function updateThings() { // various updates on each tick
 	}
 	update("microEssenceDisplay",game.microEssence);
         updateBaseClick()
+	update("A6power",format(1+Math.log10(game.microPrestige.times)/10));
+	update("microEssenceMult",format(Math.pow(1.1,game.Aupgs.repeatable.amount)));
 }
 
 function init() { // initialize
