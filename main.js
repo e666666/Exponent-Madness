@@ -1,5 +1,5 @@
 function getDefaultSave(){
-        return var game = { // game object to store all save-pertinent info
+	var game = { // game object to store all save-pertinent info
 	        num: 1, // number that we are increasing
 	        mult: 1.5, // number that it multiplies by on click
         	countdown: 0, // counter for the button cooldown
@@ -21,6 +21,7 @@ function getDefaultSave(){
 			upgrades:[]//the var for storing the stuff
              }
         }
+        return game
 }
 
 
