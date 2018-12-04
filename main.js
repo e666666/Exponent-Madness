@@ -210,7 +210,7 @@ function load(save) {
 	update("numDisplay",game.num);
 	update("countdownDisplay",game.countdown);
 	update("notationDisplay",game.notation);
-	update("multDisplay",game.mult);
+	update("multDisplay",getCurrentClickAmt());
 	update("microEssenceDisplay",game.microPrestige.essence);
 	} catch (e) {
 		console.log('Your save failed to load: '+e)
