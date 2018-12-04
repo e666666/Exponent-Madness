@@ -205,7 +205,7 @@ function load(save) {
 			costMult:1.5
 			},
 		upgrades:[]//the var for storing the stuff
-}	
+	}
 	update("numDisplay",game.num);
 	update("countdownDisplay",game.countdown);
 	update("notationDisplay",game.notation);
