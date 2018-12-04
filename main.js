@@ -54,7 +54,7 @@ function microPrestige() {
         updateBaseClick()
 }
 
-function getPrecentageGrowthFactor(){
+function getPercentageGrowthFactor(){
         var mult = 1
 	if (game.number > 1e5) mult = 1 + 0.0025*Math.max(0,Math.floor(Math.log10(game.number))-5) // the alway additive mult
         if (game.Aupgs.upgrades.includes("A2")) mult *= 1+ 0.012*Math.floor(Math.log10(game.number))
@@ -64,7 +64,7 @@ function getPrecentageGrowthFactor(){
 function getCurrentClickAmt(){
         var base = game.mult
         if (game.Aupgs.upgrades.includes("A7") && game.number < 1e33) base *= 5
-        base *= getPrecentageGrowthFactor()
+        base *= getPercentageGrowthFactor()
         if (game.Aupgs.upgrades.includes("A6")) base *= 1+Math.log10(game.microPrestige.times)/10
         return base
 }
@@ -104,7 +104,7 @@ function step() { // clicks button
 
 function buyAupg(number){
 	var cost = game.Aupgs.cost[number-1]
-	if (game.microPrestige.essence >= cost && game.Aupgs.upgrades.length == number-1){
+	if (game.microPrestige.essence >= cost && !(game.Aupgs.upgrades.includes(game.Aupgs.possible[number-1]))){
 		game.microPrestige.essence -= cost
 		game.Aupgs.upgrades.push(game.Aupgs.possible[number-1])
 	}
