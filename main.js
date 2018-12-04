@@ -237,7 +237,7 @@ function updateThings() { // various updates on each tick
 	if(game.countdown>50) game.countdown = game.countdown-50;
 	if(game.countdown<=50&&game.countdown>=0) game.countdown = 0;
 	update("countdownDisplay",game.countdown/1000); // update the displayed time
-	update("multDisplay",format(game.mult));
+	update("multDisplay",format(getCurrentClickAmt()));
 	if(game.num>=1e33) { // Number overflow?
 		hideElement("increaseNumber");
 		showElement("microPrestigeElement");
