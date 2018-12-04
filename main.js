@@ -211,7 +211,7 @@ function load(save) {
 	update("countdownDisplay",game.countdown);
 	update("notationDisplay",game.notation);
 	update("multDisplay",game.mult);
-	update("microEssenceDisplay",game.microEssence);
+	update("microEssenceDisplay",game.microPrestige.essence);
 	} catch (e) {
 		console.log('Your save failed to load: '+e)
 	}
@@ -242,7 +242,7 @@ function updateThings() { // various updates on each tick
 		hideElement("increaseNumber");
 		showElement("microPrestigeElement");
 	}
-	update("microEssenceDisplay",game.microEssence);
+	update("microEssenceDisplay",game.microPrestige.essence);
         updateBaseClick()
 	update("A6power",format(1+Math.log10(game.microPrestige.times)/10));
 	update("microEssenceMult",format(Math.pow(1.1,game.Aupgs.repeatable.amount)));
