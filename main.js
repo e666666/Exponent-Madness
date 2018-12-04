@@ -56,14 +56,14 @@ function microPrestige() {
 
 function getPercentageGrowthFactor(){
         var mult = 1
-	if (game.number > 1e5) mult = 1 + 0.0025*Math.max(0,Math.floor(Math.log10(game.number))-5) // the alway additive mult
-        if (game.Aupgs.upgrades.includes("A2")) mult *= 1+ 0.012*Math.floor(Math.log10(game.number))
+	if (game.num > 1e5) mult = 1 + 0.0025*Math.max(0,Math.floor(Math.log10(game.num))-5) // the alway additive mult
+        if (game.Aupgs.upgrades.includes("A2")) mult *= 1+ 0.012*Math.floor(Math.log10(game.num))
         return mult
 }
 
 function getCurrentClickAmt(){
         var base = game.mult
-        if (game.Aupgs.upgrades.includes("A7") && game.number < 1e33) base *= 5
+        if (game.Aupgs.upgrades.includes("A7") && game.num < 1e33) base *= 5
         base *= getPercentageGrowthFactor()
         if (game.Aupgs.upgrades.includes("A6")) base *= 1+Math.log10(game.microPrestige.times)/10
         return base
