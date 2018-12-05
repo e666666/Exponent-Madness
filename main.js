@@ -42,6 +42,7 @@ function microPrestige() {
                 num: game.Aupgs.upgrades.includes("A5")? 1000:1,
                 mult: 1.5,
                 countdown: 0,
+		normCountdown: 3000,
                 microPrestige:{
                         essence: game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
@@ -206,6 +207,10 @@ function load(save) {
 			costMult:1.5
 			},
 		upgrades:[]//the var for storing the stuff
+	}
+	if(game.microPrestige.times > 0) {
+		showElement("microEssenceInfo");
+		showElement("microPrestigeTab");
 	}
 	update("numDisplay",game.num);
 	update("countdownDisplay",game.countdown);
