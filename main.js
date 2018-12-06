@@ -42,7 +42,7 @@ function microPrestige() {
 	hideElement("microPrestigeElement");
 	game = {
                 num: game.Aupgs.upgrades.includes("A5")? 1000:1,
-		storedClickes:0,
+		storedClicks:0,
 		maxStoredClicks: game.Aupgs.upgrades.includes('A3')? 1:0,
                 mult: 1.5,
                 countdown: 0,
@@ -117,8 +117,12 @@ function buyAupg(number){
 	if (game.microPrestige.essence >= cost && !(game.Aupgs.upgrades.includes(game.Aupgs.possible[number-1]))){
 		game.microPrestige.essence -= cost
 		game.Aupgs.upgrades.push(game.Aupgs.possible[number-1])
+		if(number === 3) {
+			game.maxStoredClicks = 1
+		}
 	}
-	if(number === 3) game.maxStoredClicks = 1
+	
+	
 }
 
 function buyRepeatA(){
