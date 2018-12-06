@@ -84,7 +84,7 @@ function step() { // clicks button
 		}
 	}
 	else if(game.storedClicks < game.maxStoredClicks) {
-		game.storedClicks +=
+		game.storedClicks ++
 	}
 	else return 0;
 }
