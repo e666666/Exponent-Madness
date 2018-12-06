@@ -224,7 +224,7 @@ function load(save) {
 	}
 	if(game.storedClicks === undefined) game.storedClicks = 0;
 	if(game.maxStoredClicks === undefined) {
-		if(game.Aupgs.upgrades.includes('A3') {
+		if(game.Aupgs.upgrades.includes('A3')) {
 			game.maxStoredClicks = 1
 		}
 		else {
