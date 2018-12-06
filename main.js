@@ -129,9 +129,12 @@ function buyRepeatA(){
 	var cost = game.Aupgs.repeatable.cost
 	if  (game.microPrestige.essence >= cost){
 		game.microPrestige.essence -= cost
+		game.microPrestige.essenceMult *= 1.1
 		game.Aupgs.repeatable.amount += 1
 		game.Aupgs.repeatable.cost *= game.Aupgs.repeatable.costMult
 		game.Aupgs.repeatable.cost = Math.floor(game.Aupgs.repeatable.cost)
+		update('RepeatACost',format(game.Aupgs.repeatable.cost))
+		update('microEssenceMult',format(Math.floor(game.microPrestige.essenceMult)))
 	}
 }
 function buyMaxRepeatA(){
