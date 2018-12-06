@@ -75,7 +75,7 @@ function getCurrentClickAmt(){
 }
 
 function step() { // clicks button
-	if(game.countdown==0) {
+	if(game.countdown===0) {
 		for(i=0;i<game.storedClicks;i++){
 			game.num = game.num*getCurrentClickAmt(); // updates number
 			update("numDisplay",format(game.num)); // update number on the page
