@@ -4,6 +4,8 @@ function getDefaultSave(){
 	        mult: 1.5, // number that it multiplies by on click
         	countdown: 0, // counter for the button cooldown
 		normCountdown: 3000,
+		storedClicks: 0,
+		maxStoredClicks: 0,
         	microPrestige:{
                         essence:0,
                         times:0,
@@ -40,6 +42,8 @@ function microPrestige() {
 	hideElement("microPrestigeElement");
 	game = {
                 num: game.Aupgs.upgrades.includes("A5")? 1000:1,
+		storedClickes:0,
+		maxStoredClicks: game.Aupgs.upgrades.includes('A3')? 1:0,
                 mult: 1.5,
                 countdown: 0,
 		normCountdown: 3000,
@@ -72,10 +76,15 @@ function getCurrentClickAmt(){
 
 function step() { // clicks button
 	if(game.countdown==0) {
-		game.num = game.num*getCurrentClickAmt(); // updates number
-		update("numDisplay",format(game.num)); // update number on the page
-		game.countdown = game.normCountdown; // reset cooldown timer
-		update("countdownDisplay",3); 
+		for(i=0;i<game.storedClicks;i++){
+			game.num = game.num*getCurrentClickAmt(); // updates number
+			update("numDisplay",format(game.num)); // update number on the page
+			game.countdown = game.normCountdown; // reset cooldown timer
+			update("countdownDisplay",3); 
+		}
+	}
+	else if(game.storedClicks < game.maxStoredClicks) {
+		game.storedClicks +=
 	}
 	else return 0;
 }
@@ -109,6 +118,7 @@ function buyAupg(number){
 		game.microPrestige.essence -= cost
 		game.Aupgs.upgrades.push(game.Aupgs.possible[number-1])
 	}
+	if(number === 3) game.maxStoredClicks = 1
 }
 
 function buyRepeatA(){
@@ -208,6 +218,8 @@ function load(save) {
 			},
 		upgrades:[]//the var for storing the stuff
 	}
+	if(game.storedClicks === undefined) game.storedClicks = 0;
+	if(game.maxStoredClicks === undefined) game.maxStoredClicks = game.Aupgs.upgrades.includes('A3') ? 1:0
 	if(game.microPrestige.times > 0) {
 		showElement("microEssenceInfo");
 		showElement("microPrestigeTab");
