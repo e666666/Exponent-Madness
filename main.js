@@ -83,6 +83,7 @@ function step() { // clicks button
 			game.countdown = game.normCountdown; // reset cooldown timer
 			update("countdownDisplay",3); 
 		}
+		game.storedClicks = 0
 	}
 	else if(game.storedClicks < game.maxStoredClicks) {
 		game.storedClicks ++
