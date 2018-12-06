@@ -43,7 +43,7 @@ function microPrestige() {
 	game = {
                 num: game.Aupgs.upgrades.includes("A5")? 1000:1,
 		storedClicks:0,
-		maxStoredClicks: game.Aupgs.upgrades.includes('A3')? 1:0,
+		maxStoredClicks:game.maxStoredClicks,
                 mult: 1.5,
                 countdown: 0,
 		normCountdown: 3000,
