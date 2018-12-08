@@ -246,6 +246,8 @@ function load(save) {
 	update("notationDisplay",game.notation);
 	update("multDisplay",getCurrentClickAmt());
 	update("microEssenceDisplay",game.microPrestige.essence);
+	update('RepeatACost',format(game.Aupgs.repeatable.cost))
+	update('microEssenceMult',format(Math.floor(game.microPrestige.essenceMult)))
 	} catch (e) {
 		console.log('Your save failed to load: '+e)
 	}
