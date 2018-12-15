@@ -3,6 +3,8 @@ function getDefaultSave(){
 	        num: 1, // number that we are increasing
 	        mult: 1.5, // number that it multiplies by on click
         	countdown: 0, // counter for the button cooldown
+		numUpgradeCost:10,
+		numUpgradeBoost:1,
 		normCountdown: 3000,
 		storedClicks: 0,
 		maxStoredClicks: 0,
@@ -42,6 +44,7 @@ function microPrestige() {
 	hideElement("microPrestigeElement");
 	game = {
                 num: game.Aupgs.upgrades.includes("A5")? 1000:1,
+		numUpgradeCost:10,
 		storedClicks:0,
 		maxStoredClicks:game.maxStoredClicks,
                 mult: 1.5,
@@ -71,6 +74,7 @@ function getCurrentClickAmt(){
         if (game.Aupgs.upgrades.includes("A7") && game.num < 1e33) base *= 5
         base *= getPercentageGrowthFactor()
         if (game.Aupgs.upgrades.includes("A6")) base *= 1+Math.log10(game.microPrestige.times)/10
+	base *= game.numUpgradeBoost
         return base
 }
 
@@ -90,7 +94,14 @@ function step() { // clicks button
 	}
 	else return 0;
 }
-
+function numUpgrade() {
+	if(game.num >= game.numUpgradeCost) {
+		game.num /= game.numUpgradeCost
+		game.numUpgradeCost *= 10
+		game.numUpgradeBoost *= 1.25
+		update('numCost',game.numUpgradeCost)
+	}
+}
 
 // A section
 // A section
