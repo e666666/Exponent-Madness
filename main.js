@@ -45,6 +45,7 @@ function microPrestige() {
 	game = {
                 num: game.Aupgs.upgrades.includes("A5")? 1000:1,
 		numUpgradeCost:10,
+		numUpgradeBoost:1,
 		storedClicks:0,
 		maxStoredClicks:game.maxStoredClicks,
                 mult: 1.5,
@@ -249,7 +250,9 @@ function load(save) {
 	}
 	if(game.numUpgradeCost === undefined) {
 		game.numUpgradeCost = 10
-		game.numUpgradeMult = 1
+	}
+	if(game.numUpgradeBoost === undefined) {
+		game.numUpgradeBoost = 1
 	}
 	if(game.microPrestige.times > 0) {
 		showElement("microEssenceInfo");
