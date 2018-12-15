@@ -297,6 +297,7 @@ function updateThings() { // various updates on each tick
         updateBaseClick()
 	update("A6power",format(1+Math.log10(game.microPrestige.times)/10));
 	update("microEssenceMult",format(Math.pow(1.1,game.Aupgs.repeatable.amount)));
+	update('numCost',format(game.numUpgradeCost))
 }
 
 function init() { // initialize
