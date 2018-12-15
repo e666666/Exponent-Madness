@@ -99,7 +99,7 @@ function numUpgrade() {
 		game.num /= game.numUpgradeCost
 		game.numUpgradeCost *= 10
 		game.numUpgradeBoost *= 1.25
-		update('numCost',game.numUpgradeCost)
+		update('numCost',format(game.numUpgradeCost))
 	}
 }
 
@@ -262,6 +262,7 @@ function load(save) {
 	update("microEssenceDisplay",game.microPrestige.essence);
 	update('RepeatACost',format(game.Aupgs.repeatable.cost))
 	update('microEssenceMult',format(Math.floor(game.microPrestige.essenceMult)))
+	update('numCost',format(game.numUpgradeCost))
 	} catch (e) {
 		console.log('Your save failed to load: '+e)
 	}
