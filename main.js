@@ -247,7 +247,10 @@ function load(save) {
 		   game.maxStoredClicks = 0
 		}
 	}
-		
+	if(game.numUpgradeCost === undefined) {
+		game.numUpgradeCost = 10
+		game.numUpgradeMult = 1
+	}
 	if(game.microPrestige.times > 0) {
 		showElement("microEssenceInfo");
 		showElement("microPrestigeTab");
