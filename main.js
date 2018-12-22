@@ -91,7 +91,7 @@ function step() { // clicks button
 		update("numDisplay",format(game.num)); // update number on the page
 		game.countdown = 1000; // reset cooldown timer
 		update("clickPoints",0); 
-		game.clickPoints -= 3
+		game.clickPoints.clickPoints -= 3
 	}
 	else return 0;
 }
