@@ -110,7 +110,7 @@ function maxCPUpgrade() {
 		game.clickPoints.maxClickPoints ++
 		game.clickPoints.maxCPCost *= 1000
 		update('maxCP',format(game.clickPoints.maxClickPoints))
-		update('maxCPCost',format(game.clickPointsmaxCPCost))
+		update('maxCPCost',format(game.clickPoints.maxCPCost))
 	}
 }
 function CPSecUpgrade() {
