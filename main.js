@@ -105,12 +105,12 @@ function numUpgrade() {
 }
 //CP Upgrades
 function maxCPUpgrade() {
-	if (game.number >= game.clickPoints.maxCPCost) {
-		game.number /= game.clickPoints.maxCPCost
+	if (game.num >= game.clickPoints.maxCPCost) {
+		game.num /= game.clickPoints.maxCPCost
 		game.clickPoints.maxClickPoints ++
 		game.clickPoints.maxCPCost *= 1000
-		update('maxCP',format(game.maxClickPoints))
-		update('maxCPCost',format(game.maxCPCost))
+		update('maxCP',format(game.clickPoints.maxClickPoints))
+		update('maxCPCost',format(game.clickPointsmaxCPCost))
 	}
 }
 function CPSecUpgrade() {
