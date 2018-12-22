@@ -86,7 +86,7 @@ function getCurrentClickAmt(){
 }
 
 function step() { // clicks button
-	if(game.clickPoints >= 3) {
+	if(game.clickPoints.clickPoints >= 3) {
 		game.num = game.num*getCurrentClickAmt(); // updates number
 		update("numDisplay",format(game.num)); // update number on the page
 		game.countdown = 1000; // reset cooldown timer
@@ -276,7 +276,6 @@ function load(save) {
 		showElement("microPrestigeTab");
 	}
 	update("numDisplay",game.num);
-	update("countdownDisplay",game.countdown);
 	update("notationDisplay",game.notation);
 	update("multDisplay",getCurrentClickAmt());
 	update("microEssenceDisplay",game.microPrestige.essence);
