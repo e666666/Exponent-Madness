@@ -12,15 +12,21 @@
                 <button class="button" onclick="switchTab('options')">Options</button>
                 <button id="microPrestigeTab" class="button" style="display:none" onclick="switchTab('microprestige')">Micro Prestige</button>
                 <div id="main" style="display:inline-block">
-                <div id="increaseNumber">
-                <button class="button" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div></button>
-                You can multiply the number again in <div id="countdownDisplay">0</div> seconds.
-                </div>
-                <button class = 'button' onclick = 'numUpgrade()'>Increase growth rate by 25 percent. Cost: Divides your number by<div id = 'numCost'>10</div></button>
-                <div id="microPrestigeElement" style="display:none">
-                Your number has overflowed, you must reset to continue.
-                <button class="button" onclick="microPrestige()">Reset your number, but gain Micro essence for upgrades.</button>
-                </div>
+                        <div id="increaseNumber">
+                                <button class="button" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div> for 3 Click Points</button>
+                                You have <div id="clickPoints">0</div> Click Points.
+                                You are gaining <div id = 'cpPerSec'>1</div> per second
+                                Your max Click Points id <div id = 'maxCP'>3</div>
+                        </div>
+                        <div id = 'numberUpgrades'>
+                                <button class = 'button' onclick = 'numUpgrade()'>Increase growth rate by 0.25 percent. Cost: Divides your number by<div id = 'numCost'>1000</div></button>
+                                <button class = 'button' onclick = 'maxCPUpgrade()'>Increase your max CP by 1. Cost: Divides your number by <div id = 'maxCPCost'>1000</div></button>
+                                <button class = 'button' onclick = 'CPSecUpgrade()'>Increase your CP/sec by 1. Cost: Divides your number by <div id = 'secCPCost'>10B</div></button>
+                                        
+                        <div id="microPrestigeElement" style="display:none">
+                                Your number has overflowed, you must reset to continue.
+                                <button class="button" onclick="microPrestige()">Reset your number, but gain Micro essence for upgrades.</button>
+                        </div>
                 </div>
                 <div id="options" style="display:none">
                         <button class="button" onclick="save()">Save</button>
