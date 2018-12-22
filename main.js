@@ -3,11 +3,15 @@ function getDefaultSave(){
 	        num: 1, // number that we are increasing
 	        mult: 1.5, // number that it multiplies by on click
         	countdown: 0, // counter for the button cooldown
-		numUpgradeCost:10,
+		numUpgradeCost:1000,
 		numUpgradeBoost:1,
-		normCountdown: 3000,
-		storedClicks: 0,
-		maxStoredClicks: 0,
+		clickPoints:{
+			clickPoints: 0,
+			maxClickPoints:3,
+			clickPointsPerSec:1,
+			maxCPCost:1000,
+			secCPCost:1e10,
+		},
         	microPrestige:{
                         essence:0,
                         times:0,
@@ -44,13 +48,15 @@ function microPrestige() {
 	hideElement("microPrestigeElement");
 	game = {
                 num: game.Aupgs.upgrades.includes("A5")? 1000:1,
-		numUpgradeCost:10,
+		numUpgradeCost:1000,
 		numUpgradeBoost:1,
-		storedClicks:0,
-		maxStoredClicks:game.maxStoredClicks,
                 mult: 1.5,
                 countdown: 0,
-		normCountdown: 3000,
+		clickPoints: 0,
+		maxClickPoints:3,
+		clickPointsPerSec:1,
+		maxCPCost:1000,
+		secCPCost:1e10,
                 microPrestige:{
                         essence: game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
@@ -80,30 +86,42 @@ function getCurrentClickAmt(){
 }
 
 function step() { // clicks button
-	if(game.countdown===0) {
-		game.storedClicks ++
-		for(i=0;i<game.storedClicks;i++){
-			game.num = game.num*getCurrentClickAmt(); // updates number
-			update("numDisplay",format(game.num)); // update number on the page
-			game.countdown = game.normCountdown; // reset cooldown timer
-			update("countdownDisplay",3); 
-		}
-		game.storedClicks = 0
-	}
-	else if(game.storedClicks < game.maxStoredClicks) {
-		game.storedClicks ++
+	if(game.clickPoints >== 3) {
+		game.num = game.num*getCurrentClickAmt(); // updates number
+		update("numDisplay",format(game.num)); // update number on the page
+		game.countdown = 1000; // reset cooldown timer
+		update("countdownDisplay",3); 
+		game.clickPoints -= 3
 	}
 	else return 0;
 }
 function numUpgrade() {
 	if(game.num >= game.numUpgradeCost) {
 		game.num /= game.numUpgradeCost
-		game.numUpgradeCost *= 10
-		game.numUpgradeBoost *= 1.25
+		game.numUpgradeCost *= 1000
+		game.numUpgradeBoost += 0.0025
 		update('numCost',format(game.numUpgradeCost))
 	}
 }
-
+//CP Upgrades
+function maxCPUpgrade() {
+	if (game.number >= game.clickPoints.maxCPCost) {
+		game.number /= game.clickPoints.maxCPCost
+		game.clickPoints.maxClickPoints ++
+		game.clickPoints.maxCPCost *= 1000
+		update('maxCP',format(game.maxClickPoints))
+		update('maxCPCost',format(game.maxCPCost))
+	}
+}
+function CPSecUpgrade() {
+	if(game.number >= game.clickPoints.secCPCost) {
+		game.number /= game.clickPoints.secCPCost
+		game.clickPoints.clickPointsPerSec ++
+		game.clickPoints.secCPCost *= 1e10
+		update('cpPerSec',format(game.clickPoints.clickPointsPerSec))
+		update('secCPCost',format(game.clickPoints.secCPCost))
+	}
+}
 // A section
 // A section
 // A section
@@ -223,7 +241,6 @@ function load(save) {
 	try {
 		game=JSON.parse(atob(save))
 	if(game.mult===undefined) game.mult = 1.5; // lines for making saves back-compatible
-	if(game.normCountdown===undefined) game.normCountdown = 3000;
 	if(game.microPrestige===undefined) game.microPrestige = {
 		essence:0,
 		times:0,
@@ -239,13 +256,13 @@ function load(save) {
 			},
 		upgrades:[]//the var for storing the stuff
 	}
-	if(game.storedClicks === undefined) game.storedClicks = 0;
-	if(game.maxStoredClicks === undefined) {
-		if(game.Aupgs.upgrades.includes('A3')) {
-			game.maxStoredClicks = 1
-		}
-		else {
-		   game.maxStoredClicks = 0
+	if(game.clickPoints === undefined) {
+		game.clickPoints = {
+			clickPoints: 0,
+			maxClickPoints:3,
+			clickPointsPerSec:1,
+			maxCPCost:1000,
+			secCPCost:1e10,
 		}
 	}
 	if(game.numUpgradeCost === undefined) {
@@ -290,7 +307,14 @@ function updateThings() { // various updates on each tick
 	update("numDisplay",format(game.num));
 	if(game.countdown>50) game.countdown = game.countdown-50;
 	if(game.countdown<=50&&game.countdown>=0) game.countdown = 0;
-	update("countdownDisplay",game.countdown/1000); // update the displayed time
+	if(game.countdown === 0) {
+		game.clickPoints.clickPoints += game.clickPoints.clickPointsPerSec
+		game.countdown = 1000
+	}
+	if(game.clickPoints.clickPoints > game.clickPoints.maxClickPoints) {
+		game.clickPoints.clickPoints = game.clickPoints.maxClickPoints
+	}
+	update('clickPoints',format(game.clickPoints.clickPoints))
 	update("multDisplay",format(getCurrentClickAmt()));
 	if(game.num>=1e33) { // Number overflow?
 		hideElement("increaseNumber");
