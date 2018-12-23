@@ -11,6 +11,7 @@ function getDefaultSave(){
 			clickPointsPerSec:1,
 			maxCPCost:1000,
 			secCPCost:1e10,
+			CPPerUpgrade: 1,
 		},
         	microPrestige:{
                         essence:0,
@@ -52,11 +53,15 @@ function microPrestige() {
 		numUpgradeBoost:1,
                 mult: 1.5,
                 countdown: 0,
-		clickPoints: 0,
-		maxClickPoints: game.Aupgs.upgrades.includes('A3')? 6:3,
-		clickPointsPerSec:1,
-		maxCPCost:1000,
-		secCPCost:1e10,
+		clickPoints:{
+			clickPoints: 0,
+			maxClickPoints: game.Aupgs.upgrades.includes('A3')? 6:3,
+			clickPointsPerSec:1,
+			maxCPCost:1000,
+			secCPCost:1e10,
+			CPPerUpgrade: game.Aupgs.upgrades.includes('A3')? 2:1,
+		},
+		
                 microPrestige:{
                         essence: game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
@@ -107,7 +112,7 @@ function numUpgrade() {
 function maxCPUpgrade() {
 	if (game.num >= game.clickPoints.maxCPCost) {
 		game.num /= game.clickPoints.maxCPCost
-		game.clickPoints.maxClickPoints ++
+		game.clickPoints.maxClickPoints += game.clickPoints.CPPerUpgrade
 		game.clickPoints.maxCPCost *= 1000
 		update('maxCP',format(game.clickPoints.maxClickPoints))
 		update('maxCPCost',format(game.clickPoints.maxCPCost))
@@ -263,7 +268,11 @@ function load(save) {
 			clickPointsPerSec:1,
 			maxCPCost:1000,
 			secCPCost:1e10,
+			CPPerUpgrade:1,
 		}
+	}
+	if(game.clickPoints.CPPerUpgrade === undefined) {
+		game.clickPoints.CPPerUpgrade = 1
 	}
 	if(game.numUpgradeCost === undefined) {
 		game.numUpgradeCost = 10
