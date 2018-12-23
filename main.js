@@ -282,6 +282,8 @@ function load(save) {
 	update('RepeatACost',format(game.Aupgs.repeatable.cost))
 	update('microEssenceMult',format(Math.floor(game.microPrestige.essenceMult)))
 	update('numCost',format(game.numUpgradeCost))
+	update('maxCPCost',format(game.clickPoints.maxCPCost))
+	update('secCPCost',format(game.clickPoints.secCPCost))
 	} catch (e) {
 		console.log('Your save failed to load: '+e)
 	}
