@@ -53,7 +53,7 @@ function microPrestige() {
                 mult: 1.5,
                 countdown: 0,
 		clickPoints: 0,
-		maxClickPoints:3,
+		maxClickPoints: game.Aupgs.upgrades.includes('A3')? 6:3,
 		clickPointsPerSec:1,
 		maxCPCost:1000,
 		secCPCost:1e10,
@@ -284,6 +284,7 @@ function load(save) {
 	update('numCost',format(game.numUpgradeCost))
 	update('maxCPCost',format(game.clickPoints.maxCPCost))
 	update('secCPCost',format(game.clickPoints.secCPCost))
+	update('maxCP',format(game.clickPoints.maxClickPoints))
 	} catch (e) {
 		console.log('Your save failed to load: '+e)
 	}
