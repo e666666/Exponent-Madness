@@ -114,8 +114,8 @@ function maxCPUpgrade() {
 	}
 }
 function CPSecUpgrade() {
-	if(game.number >= game.clickPoints.secCPCost) {
-		game.number /= game.clickPoints.secCPCost
+	if(game.num >= game.clickPoints.secCPCost) {
+		game.num /= game.clickPoints.secCPCost
 		game.clickPoints.clickPointsPerSec ++
 		game.clickPoints.secCPCost *= 1e10
 		update('cpPerSec',format(game.clickPoints.clickPointsPerSec))
