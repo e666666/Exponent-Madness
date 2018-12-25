@@ -11,7 +11,8 @@
                 <button class="button" onclick="switchTab('main')">Main</button>
                 <button class="button" onclick="switchTab('options')">Options</button>
                 <button id="microPrestigeTab" class="button" style="display:none" onclick="switchTab('microprestige')">Micro Prestige</button>
-                <div id="main" style="display:inline-block">
+                <button id = 'breakNumeralsTab' class = 'button' style = 'display:none' onclick = "switchTab('breaknumerals')">Break Numerals</button>
+		<div id="main" style="display:inline-block">
                         <div id="increaseNumber">
                                 <button class="button" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div> for 3 Click Points</button>
                                 You have <div id="clickPoints">0</div> Click Points.
@@ -27,9 +28,7 @@
                                 Your number has overflowed, you must reset to continue.
                                 <button class="button" onclick="microPrestige()">Reset your number, but a Micro essence for upgrades.</button>
                         </div>
-                        <div id = 'Break Numerals' style = 'display:none'>
-                                <button class = 'button' onclick = 'microPrestige()'>Reset your number, but gain <div id = 'ueOnReset'>0</div> Micro Essense</button>
-                        </div>
+                        <button class = 'button' onclick = 'microPrestige()' style = 'display:none' id = 'microReset'>Reset your number, but gain <div id = 'ueOnReset'>1</div> Micro Essense</button>
                 </div>
                 <div id="options" style="display:none">
                         <button class="button" onclick="save()">Save</button>
@@ -59,6 +58,7 @@
 			</table>
 		</div>
 		<div id = 'breaknumerals' style = 'display:none'>
+			<button class = 'button' onclick = 'breakNumerals()'>Break Numerals!</button>
 			<table>
 				<tr>
 					<td><button class = 'button' onclick = 'buyBupg(1)'>Increase the base multiplier to 3x Cost:160 &micro;E</button></td>
