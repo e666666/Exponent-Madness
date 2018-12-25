@@ -171,7 +171,7 @@ function buyMaxRepeatA(){
 }
 
 //B Section
-function buyBUpgrade(number) {
+function buyBUpg(number) {
 	var cost = game.Bupgs.cost[number-1]
 	if (game.microPrestige.essence >= cost && !(game.Bupgs.upgrades.includes(game.Bupgs.possible[number-1]))){
 		game.microPrestige.essence -= cost
