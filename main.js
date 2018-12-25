@@ -145,7 +145,9 @@ function buyAupg(number){
 		game.microPrestige.essence -= cost
 		game.Aupgs.upgrades.push(game.Aupgs.possible[number-1])
 		if(number === 3) {
-			game.maxStoredClicks = 1
+			game.clickPoints.maxClickPoints = 6
+			game.clickPoints.CPPerUpgrade = 2
+			update('maxCP',format(game.clickPoints.maxClickPoints))
 		}
 	}
 }
@@ -343,7 +345,7 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('microReset',format(Math.floor((game.num/1e33)^(1/2.2))))
+			update('ueonreset',format(Math.floor(Math.pow(game.num/1e33,(1/2.2)))))
 			showElement("microReset");
 		}
 	}
