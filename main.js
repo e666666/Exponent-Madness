@@ -54,6 +54,7 @@ function microPrestige() {
 	showElement("microPrestigeTab");
 	showElement("increaseNumber");
 	hideElement("microPrestigeElement");
+	hideElement('microReset')
 	game = {
                 num: game.Aupgs.upgrades.includes("A5")? 1000:1,
 		numUpgradeCost:1000,
@@ -171,7 +172,7 @@ function buyMaxRepeatA(){
 }
 
 //B Section
-function buyBUpg(number) {
+function buyBupg(number) {
 	var cost = game.Bupgs.cost[number-1]
 	if (game.microPrestige.essence >= cost && !(game.Bupgs.upgrades.includes(game.Bupgs.possible[number-1]))){
 		game.microPrestige.essence -= cost
@@ -349,7 +350,7 @@ function updateThings() { // various updates on each tick
 			showElement("microReset");
 		}
 	}
-	update("microEssenceDisplay",game.microPrestige.essence);
+	update("microEssenceDisplay",format(game.microPrestige.essence));
         updateBaseClick()
 	update("A6power",format(1+Math.log10(game.microPrestige.times)/10));
 	update("microEssenceMult",format(Math.pow(1.1,game.Aupgs.repeatable.amount)));
