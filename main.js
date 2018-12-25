@@ -19,6 +19,7 @@ function getDefaultSave(){
                         essenceMult:1},
         	notation: 0,// standard notation - clearly the best notation!
 		version : 0.2,
+		numeralsBroken:false,
 		Aupgs:{
 			possible:["A1","A2","A3","A4","A5","A6","A7"],
 			cost:[       1,   1,   2,   5,  10, 18,  50],
@@ -28,7 +29,13 @@ function getDefaultSave(){
 				costMult:1.5
 			},
 			upgrades:[]//the var for storing the stuff
-             }
+		},
+		Bupgs:{
+			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9'],
+			cost:[     160,350, 720,1500,4000,18000,1e5,2.4e5,8e5],
+			upgrades:[]
+		}
+		
         }
         return game
 }
@@ -63,7 +70,7 @@ function microPrestige() {
 		},
 		
                 microPrestige:{
-                        essence: game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor((game.num/1e33)^(1/2.2)):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
                         essenceMult: game.microPrestige.essenceMult
                 },
@@ -71,6 +78,9 @@ function microPrestige() {
                 version:game.version,
                 Aupgs: game.Aupgs
         }
+	if(game.microPrestige.times >= 100) {
+		showElement('breakNumeralsTab')
+	}
         updateBaseClick()
 }
 
@@ -128,26 +138,6 @@ function CPSecUpgrade() {
 	}
 }
 // A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
-// A section
 
 function buyAupg(number){
 	var cost = game.Aupgs.cost[number-1]
@@ -158,8 +148,6 @@ function buyAupg(number){
 			game.maxStoredClicks = 1
 		}
 	}
-	
-	
 }
 
 function buyRepeatA(){
@@ -180,8 +168,17 @@ function buyMaxRepeatA(){
 	}
 }
 
-
-
+//B Section
+function buyBUpgrade(number) {
+	var cost = game.Bupgs.cost[number-1]
+	if (game.microPrestige.essence >= cost && !(game.Bupgs.upgrades.includes(game.Bupgs.possible[number-1]))){
+		game.microPrestige.essence -= cost
+		game.Bupgs.upgrades.push(game.Bupgs.possible[number-1])
+	}
+}
+function breakNumerals() {
+	game.numeralsBroken = true
+}
 
 
 
@@ -261,6 +258,13 @@ function load(save) {
 			},
 		upgrades:[]//the var for storing the stuff
 	}
+	if(game.Bupgs === undefined) {
+		game.Bupgs = {
+			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9'],
+			cost:[     160,350, 720,1500,4000,18000,1e5,2.4e5,8e5],
+			upgrades:[]
+		}
+	}
 	if(game.clickPoints === undefined) {
 		game.clickPoints = {
 			clickPoints: 0,
@@ -280,9 +284,15 @@ function load(save) {
 	if(game.numUpgradeBoost === undefined) {
 		game.numUpgradeBoost = 1
 	}
+	if(game.numeralsBroken === undefined) {
+		game.numeralsBroken = false
+	}
 	if(game.microPrestige.times > 0) {
 		showElement("microEssenceInfo");
 		showElement("microPrestigeTab");
+	}
+	if(game.microPrestige.times >= 100) {
+		showElement('breakNumeralsTab')
 	}
 	update("numDisplay",game.num);
 	update("notationDisplay",game.notation);
@@ -328,8 +338,14 @@ function updateThings() { // various updates on each tick
 	update('clickPoints',format(game.clickPoints.clickPoints))
 	update("multDisplay",format(getCurrentClickAmt()));
 	if(game.num>=1e33) { // Number overflow?
-		hideElement("increaseNumber");
-		showElement("microPrestigeElement");
+		if(!game.numeralsBroken) {
+			hideElement("increaseNumber");
+			showElement("microPrestigeElement");
+		}
+		else {
+			update('microReset',format(Math.floor((game.num/1e33)^(1/2.2))))
+			showElement("microReset");
+		}
 	}
 	update("microEssenceDisplay",game.microPrestige.essence);
         updateBaseClick()
