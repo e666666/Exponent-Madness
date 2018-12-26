@@ -47,11 +47,15 @@
 				</tr>
 				<tr>
 					<td><button class="button" onclick="buyAupg(4)">Increase the base multiplier to 2.5x.<br>Cost: 5 &micro;E</button></td>
-					<td><button class="button" onclick="buyAupg(5)">You start micro prestiges with the number equal to 1000.<br>Cost: 10 &micro;E</button></td>
-					<td><button class="button" onclick="buyAupg(6)">Increase the base multiplier based on number of micro prestiges.<br>Currently: <span id="A6power">1</span>x.<br>Cost: 18 &micro;E</button></td>
+					<td><button class="button" onclick="buyAupg(5)">You start micro prestiges with 3 CP/sec<br>Cost: 10 &micro;E</button></td>
+					<td><button class = 'button' onclick = 'buyAupg(6)'>The growth factor is higher based on unspent µE. Cost:18</button></td>
 				</tr>
 				<tr>
-					<td><button class="button" onclick="buyAupg(7)">Increase the base multiplier by 5x if your number is below 1e33.<br>Cost: 50 &micro;E</button></td>
+					<td><button class="button" onclick="buyAupg(7)">Increase the base multiplier based on number of micro prestiges.<br>Currently: <span id="A6power">1</span>x.<br>Cost: 18 &micro;E</button></td>
+					<td><button class="button" onclick="buyAupg(8)">Increase the base multiplier by 5x if your number is below 1e33.<br>Cost: 50 &micro;E</button></td>
+					<td><button class = 'button' onclick = 'buyAupg(9)'> The growth factor is higher based on your current CP amount Cost: 100 µE</button></td>
+				</tr>
+				<tr>
 					<td><button class="button" onclick="buyRepeatA()">You gain 10% more &micro;E.<br>Currently: <span id="microEssenceMult">1</span>x.<br>Cost: <span id="RepeatACost">25</span> &micro;E</button></td>
 					<td><button class="button" onclick="buyMaxRepeatA()">Max &micro;E Mult</button></td>
 				</tr>
@@ -67,13 +71,15 @@
 				</tr>
 				<tr>
 					<td><button class = 'button' onclick = 'buyBupg(4)'>The growth factor is higher based on the amount of µE you have (1+(log(µE+1))/300). Cost: <div id = 'B4Cost'>1.5K</div> µE</button></td>
-					<td><button class = 'button' onclick = 'buyBupg(5)'>Increase base growth factor to 4x, requires B1. Cost: <div id = 'B5Cost'>4K</div> µE</button></td>
-					<td><button class = 'button' onclick = 'buyBupg(6)'>You get 1 µE every button click. Cost: <div id = 'B6Cost'>18K</div> µE</button></td>
+					<td><button class = 'button' onclick = 'buyBupg(5)'>Button clicks now cost 2 CP.  Cost: <div id = 'B5Cost'>2.5K</div> µE</button></td>
+					<td><button class = 'button' onclick = 'buyBupg(6)'>Increase base growth factor to 4x, requires B1. Cost: <div id = 'B5Cost'>4K</div> µE</button></td>
+					
 				</tr>
 				<tr>
-					<td><button class = 'button' onclick = 'buyBupg(7)'>The growth factor is higher based on total button clicks (1+(log(clicks+1))/310). Cost: <div id = 'B7Cost'>100K</div> µE</button></td>
-					<td><button class = 'button' onclick = 'buyBupg(8)'> You now gain 1.5 CP/s. Cost: <div id = 'B8Cost'>240K</div> µE</button></td>
-					<td><button class = 'button' onclick = 'buyBupg(9)'>Unlock button autoclicker. Cost: <div id = 'B9Cost'>800K</div> µE</button></td>
+					<td><button class = 'button' onclick = 'buyBupg(7)'>You get 1 µE every button click. Cost: <div id = 'B6Cost'>18K</div> µE</button></td>
+					<td><button class = 'button' onclick = 'buyBupg(8)'>The growth factor is higher based on total button clicks (1+(log(clicks+1))/310). Cost: <div id = 'B7Cost'>100K</div> µE</button></td>
+					<td><button class = 'button' onclick = 'buyBupg(9)'> You now gain 1.5 CP/s. Cost: <div id = 'B8Cost'>240K</div> µE</button></td>
+					<td><button class = 'button' onclick = 'buyBupg(10)'>Unlock button autoclicker. Cost: <div id = 'B9Cost'>800K</div> µE</button></td>
 				</tr>
 					
         </body>
