@@ -3,6 +3,7 @@ function getDefaultSave(){
 	        num: 1, // number that we are increasing
 	        mult: 1.5, // number that it multiplies by on click
         	countdown: 0, // counter for the button cooldown
+		buttonClicks: 0,
 		numUpgradeCost:1000,
 		numUpgradeBoost:1,
 		clickPoints:{
@@ -12,6 +13,7 @@ function getDefaultSave(){
 			maxCPCost:1000,
 			secCPCost:1e10,
 			CPPerUpgrade: 1,
+			CPPerSecUpgrade: 1,
 		},
         	microPrestige:{
                         essence:0,
@@ -60,6 +62,7 @@ function microPrestige() {
 	game = {
                 num:game.Bupgs.upgrades.includes('B2')? 1e10:1,
 		numUpgradeCost:1000,
+		buttonClicks: game.buttonClicks,
 		numUpgradeBoost:1,
                 mult: 1.5,
                 countdown: 0,
@@ -70,6 +73,7 @@ function microPrestige() {
 			maxCPCost:1000,
 			secCPCost:1e10,
 			CPPerUpgrade: game.Aupgs.upgrades.includes('A3')? 2:1,
+			CPPerSecUpgrade: game.Bupgs.upgrades.includes('B9')? 1.5:1
 		},
 		
                 microPrestige:{
@@ -84,6 +88,7 @@ function microPrestige() {
 	if(game.microPrestige.times >= 100) {
 		showElement('breakNumeralsTab')
 	}
+	game.clickPoints.clickPointsPerSec *= game.clickPoints.CPPerSecUpgradeF
         updateBaseClick()
 }
 function getTriangularNumber(num) {
@@ -110,6 +115,7 @@ function getCurrentClickAmt(){
 	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + Math.pow(game.microPrestige.essence,0.3)
 	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints)/10
 	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + Math.log10(game.microPrestige.essence + 1)/300
+	if(game.Bupgs.upgrades.includes('B8')) base *= 1 + Math.log10(game.buttonClicks + 1)/310
         return base
 }
 
@@ -123,6 +129,7 @@ function step() { // clicks button
 		if(game.Bupgs.upgrades.includes('B6')) {
 		   game.microPrestige.essence ++
 		}
+		game.buttonClicks ++
 	}
 	else if(game.clickPoints.clickPoints >= 3) {
 		game.num = game.num*getCurrentClickAmt(); // updates number
@@ -133,6 +140,7 @@ function step() { // clicks button
 		if(game.Bupgs.upgrades.includes('B6')) {
 		   game.microPrestige.essence ++
 		}
+		game.buttonClicks ++
 	}
 	else return 0;
 }
@@ -157,7 +165,7 @@ function maxCPUpgrade() {
 function CPSecUpgrade() {
 	if(game.num >= game.clickPoints.secCPCost) {
 		game.num /= game.clickPoints.secCPCost
-		game.clickPoints.clickPointsPerSec ++
+		game.clickPoints.clickPointsPerSec += game.clickPoints.CPPerSecUpgrade
 		game.clickPoints.secCPCost *= 1e10
 		update('cpPerSec',format(game.clickPoints.clickPointsPerSec))
 		update('secCPCost',format(game.clickPoints.secCPCost))
@@ -321,6 +329,12 @@ function load(save) {
 	}
 	if(game.numeralsBroken === undefined) {
 		game.numeralsBroken = false
+	}
+	if(game.buttonClicks === undefined) {
+		game.buttonClicks = 0
+	}
+	if(game.clickPoints.CPPerSecUpgrade === undefined) {
+		game.clickPoints.CPPerSecUpgrade = game.Bupgs.upgrades.includes('B9')? 1.5:1
 	}
 	if(game.microPrestige.times > 0) {
 		showElement("microEssenceInfo");
