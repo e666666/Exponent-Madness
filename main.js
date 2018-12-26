@@ -83,7 +83,8 @@ function microPrestige() {
                 },
                 notation: game.notation,
                 version:game.version,
-                Aupgs: game.Aupgs
+                Aupgs: game.Aupgs,
+		Bupgs:game.Bupgs
         }
 	if(game.microPrestige.times >= 100) {
 		showElement('breakNumeralsTab')
