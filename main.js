@@ -402,7 +402,9 @@ function updateThings() { // various updates on each tick
 	}
 	update("microEssenceDisplay",format(game.microPrestige.essence));
         updateBaseClick()
-	update("A6power",format(1+Math.log10(game.microPrestige.times)/10));
+	update('A6power',format(1 + Math.pow(game.microPrestige.essence,0.3)))
+	update("A7power",format(1+Math.log10(game.microPrestige.times)/10));
+	update('A9power',format(1 + Math.log10(game.clickPoints.clickPoints)/10))
 	update("microEssenceMult",format(Math.pow(1.1,game.Aupgs.repeatable.amount)));
 	update('numCost',format(game.numUpgradeCost))
 	update('maxCPCost',format(game.clickPoints.maxCPCost))
