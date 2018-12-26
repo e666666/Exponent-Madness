@@ -92,6 +92,7 @@ function getTriangularNumber(num) {
 	//n^2-n-num = 0
 	//n = (1+sqrt(1+4num))/2
 	return (1+Math.sqrt(1 + 4*num))/2
+}
 function getPercentageGrowthFactor(){
         var mult = 1
 	if (game.num > 1e5) mult = 1 + 0.0025*Math.max(0,Math.floor(Math.log10(game.num))-5) // the alway additive mult
