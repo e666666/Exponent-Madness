@@ -77,7 +77,7 @@ function microPrestige() {
 		},
 		
                 microPrestige:{
-                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor((game.num/1e33)^(1/2.2)):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor((Math.log10(game.num)/33)^(1/2.2)):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
                         essenceMult: game.microPrestige.essenceMult
                 },
@@ -396,7 +396,7 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('ueOnReset',format(Math.floor(Math.pow(game.num/1e33,(1/2.2)))))
+			update('ueOnReset',format(Math.floor(Math.pow(Math.log10(game.num)/33,(1/2.2)))))
 			showElement("microReset");
 		}
 	}
