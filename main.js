@@ -21,8 +21,8 @@ function getDefaultSave(){
 		version : 0.2,
 		numeralsBroken:false,
 		Aupgs:{
-			possible:["A1","A2","A3","A4","A5","A6","A7"],
-			cost:[       1,   1,   2,   5,  10, 18,  50],
+			possible:["A1","A2","A3","A4","A5","A6","A7",'A8','A9'],
+			cost:[       1,   1,   2,   5,  10, 14,  18,  50,  100],
 			repeatable:{
 				amount:0,
 				cost:25,
@@ -31,8 +31,8 @@ function getDefaultSave(){
 			upgrades:[]//the var for storing the stuff
 		},
 		Bupgs:{
-			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9'],
-			cost:[     160,350, 720,1500,4000,18000,1e5,2.4e5,8e5],
+			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10'],
+			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5],
 			upgrades:[]
 		}
 		
@@ -58,7 +58,7 @@ function microPrestige() {
 	hideElement("microPrestigeElement");
 	hideElement('microReset')
 	game = {
-                num: game.Aupgs.upgrades.includes("A5")? game.Bupgs.upgrades.includes('B2')? 1e10:1000:1,
+                num:game.Bupgs.upgrades.includes('B2')? 1e10:1,
 		numUpgradeCost:1000,
 		numUpgradeBoost:1,
                 mult: 1.5,
@@ -66,7 +66,7 @@ function microPrestige() {
 		clickPoints:{
 			clickPoints: 0,
 			maxClickPoints: game.Aupgs.upgrades.includes('A3')? 6:3,
-			clickPointsPerSec:1,
+			clickPointsPerSec: game.Aupgs.upgrades.includes('A5')? 3:1,
 			maxCPCost:1000,
 			secCPCost:1e10,
 			CPPerUpgrade: game.Aupgs.upgrades.includes('A3')? 2:1,
@@ -86,19 +86,24 @@ function microPrestige() {
 	}
         updateBaseClick()
 }
-
+function getTriangularNumber(num) {
+	//(n^2-n)/2
+	num *= 2
+	//n^2-n-num = 0
+	//n = (1+sqrt(1+4num))/2
+	return (1+Math.sqrt(1 + 4*num))/2
 function getPercentageGrowthFactor(){
         var mult = 1
 	if (game.num > 1e5) mult = 1 + 0.0025*Math.max(0,Math.floor(Math.log10(game.num))-5) // the alway additive mult
-        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*Math.floor(Math.sqrt(Math.log10(game.num)))
+        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*Math.floor(getTriangularNumber(Math.log10(game.num)))
 	return mult
 }
 
 function getCurrentClickAmt(){
         var base = game.mult
-        if (game.Aupgs.upgrades.includes("A7") && game.num < 1e33) base *= 5
+        if (game.Aupgs.upgrades.includes("A8") && game.num < 1e33) base *= 5
         base *= getPercentageGrowthFactor()
-        if (game.Aupgs.upgrades.includes("A6")) base *= 1+Math.log10(game.microPrestige.times)/10
+        if (game.Aupgs.upgrades.includes("A7")) base *= 1+Math.log10(game.microPrestige.times)/10
 	base *= game.numUpgradeBoost
         return base
 }
@@ -259,8 +264,8 @@ function load(save) {
 		times:0,
 		essenceMult:1};
 	if(game.version===undefined) game.version = 0.2;
-	if(game.Aupgs===undefined) game.Aupgs = Aupgs = {
-		possible:["A1","A2","A3","A4","A5","A6","A7"],
+	if(game.Aupgs===undefined) game.Aupgs = {
+		possible:["A1","A2","A3","A4","A5","A6","A7",'A8','A9'],
 		cost:[       1,   1,   2,   5,  10, 18,  50],
 		repeatable:{
 			amount:0,
@@ -269,10 +274,14 @@ function load(save) {
 			},
 		upgrades:[]//the var for storing the stuff
 	}
+	if(!(game.Aupgs.possible.includes('A9'))) {
+		game.Aupgs.possible = ["A1","A2","A3","A4","A5","A6","A7",'A8','A9']
+		game.Aupgs.cost = [       1,   1,   2,   5,  10, 14,  18,  50,  100]
+	}
 	if(game.Bupgs === undefined) {
 		game.Bupgs = {
-			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9'],
-			cost:[     160,350, 720,1500,4000,18000,1e5,2.4e5,8e5],
+			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10'],
+			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5],
 			upgrades:[]
 		}
 	}
