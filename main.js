@@ -384,6 +384,9 @@ function updateThings() { // various updates on each tick
 	if(game.clickPoints.clickPoints > game.clickPoints.maxClickPoints) {
 		game.clickPoints.clickPoints = game.clickPoints.maxClickPoints
 	}
+	if(game.Bupgs.upgrades.includes('B9') && (game.clickPoints.clickPoints >= 3 || (game.clickPoints.clickPoints >= 2 && game.Bupgs.upgrades.includes('B5')))) {
+		step()
+	}
 	update('clickPoints',format(game.clickPoints.clickPoints))
 	update("multDisplay",format(getCurrentClickAmt()));
 	if(game.num>=1e33) { // Number overflow?
