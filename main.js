@@ -396,7 +396,7 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('ueonreset',format(Math.floor(Math.pow(game.num/1e33,(1/2.2)))))
+			update('ueOnReset',format(Math.floor(Math.pow(game.num/1e33,(1/2.2)))))
 			showElement("microReset");
 		}
 	}
