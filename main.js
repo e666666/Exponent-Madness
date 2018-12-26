@@ -96,7 +96,8 @@ function getTriangularNumber(num) {
 function getPercentageGrowthFactor(){
         var mult = 1
 	if (game.num > 1e5) mult = 1 + 0.0025*Math.max(0,Math.floor(Math.log10(game.num))-5) // the alway additive mult
-        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*Math.floor(getTriangularNumber(Math.log10(game.num)))
+        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*getTriangularNumber(Math.log10(game.num))
+	if(game.Bupgs.upgrades.includes('B3')) mult *= 1 + 0.015 * getTriangularNumber(Math.log10(game.num))
 	return mult
 }
 
@@ -106,16 +107,29 @@ function getCurrentClickAmt(){
         base *= getPercentageGrowthFactor()
         if (game.Aupgs.upgrades.includes("A7")) base *= 1+Math.log10(game.microPrestige.times)/10
 	base *= game.numUpgradeBoost
+	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + Math.pow(game.microPrestige.essence,0.3)
+	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints)/10
+	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + Math.log10(game.microPrestige.essence + 1)/300
         return base
 }
 
 function step() { // clicks button
-	if(game.clickPoints.clickPoints >= 3) {
-		game.num = game.num*getCurrentClickAmt(); // updates number
+	if(game.Bupgs.upgrades.includes('B5') {
+	   	game.num = game.num*getCurrentClickAmt(); // updates number
 		update("numDisplay",format(game.num)); // update number on the page
 		game.countdown = 1000; // reset cooldown timer
-		update("clickPoints",0); 
+		game.clickPoints.clickPoints -= 2
+		update("clickPoints",game.clickPoints.clickPoints); 
+		if(game.Bupgs.upgrades.includes('B6')) {
+		   game.microPrestige.essence ++
+		}
+	}
+	else if(game.clickPoints.clickPoints >= 3) {
+		game.num = game.num*getCurrentClickAmt(); // updates number
+		update("numDisplay",format(game.num)); // update number on the page
+		game.countdown = 1000; // reset cooldown time
 		game.clickPoints.clickPoints -= 3
+		update("clickPoints",game.clickPoints.clickPoints); 
 		if(game.Bupgs.upgrades.includes('B6')) {
 		   game.microPrestige.essence ++
 		}
