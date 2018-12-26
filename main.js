@@ -47,6 +47,8 @@ function updateBaseClick(){
         game.mult = 1.5
         if (game.Aupgs.upgrades.includes("A1")) game.mult = 1.8667
         if (game.Aupgs.upgrades.includes("A4")) game.mult = 2.5
+	if(game.Bupgs.upgrades.includes('B1')) game.mult = 3
+	if(game.Bupgs.upgrades.includes('B5')) game.mult = 4
 }
 
 function microPrestige() {
@@ -56,7 +58,7 @@ function microPrestige() {
 	hideElement("microPrestigeElement");
 	hideElement('microReset')
 	game = {
-                num: game.Aupgs.upgrades.includes("A5")? 1000:1,
+                num: game.Aupgs.upgrades.includes("A5")? game.Bupgs.upgrades.includes('B2')? 1e10:1000:1,
 		numUpgradeCost:1000,
 		numUpgradeBoost:1,
                 mult: 1.5,
@@ -88,8 +90,8 @@ function microPrestige() {
 function getPercentageGrowthFactor(){
         var mult = 1
 	if (game.num > 1e5) mult = 1 + 0.0025*Math.max(0,Math.floor(Math.log10(game.num))-5) // the alway additive mult
-        if (game.Aupgs.upgrades.includes("A2")) mult *= 1+ 0.012*Math.floor(Math.log10(game.num))
-        return mult
+        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*Math.floor(Math.sqrt(Math.log10(game.num)))
+	return mult
 }
 
 function getCurrentClickAmt(){
@@ -108,6 +110,9 @@ function step() { // clicks button
 		game.countdown = 1000; // reset cooldown timer
 		update("clickPoints",0); 
 		game.clickPoints.clickPoints -= 3
+		if(game.Bupgs.upgrades.includes('B6')) {
+		   game.microPrestige.essence ++
+		}
 	}
 	else return 0;
 }
@@ -174,6 +179,9 @@ function buyMaxRepeatA(){
 //B Section
 function buyBupg(number) {
 	var cost = game.Bupgs.cost[number-1]
+	if(number === 5 && !(game.Bupgs.upgrades.includes('B1'))) {
+		return
+	}
 	if (game.microPrestige.essence >= cost && !(game.Bupgs.upgrades.includes(game.Bupgs.possible[number-1]))){
 		game.microPrestige.essence -= cost
 		game.Bupgs.upgrades.push(game.Bupgs.possible[number-1])
