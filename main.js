@@ -313,7 +313,6 @@ function fromValue(value) {
   if (value.split("e")[0] === "") return Decimal.fromMantissaExponent(Math.pow(10,parseFloat(value.split("e")[1])%1), parseInt(value.split("e")[1]))
   return Decimal.fromString(value)
 }
-
 function format(a) { // formats numbers for display
 	var e = Math.floor(Math.log10(a)); // exponent of number
 	var m = Math.round(Math.pow(10,Math.log10(a)-e)*1000)/1000; // mantissa of number
