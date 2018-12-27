@@ -89,7 +89,7 @@ function microPrestige() {
 	if(game.microPrestige.times >= 100) {
 		showElement('breakNumeralsTab')
 	}
-	game.clickPoints.clickPointsPerSec *= game.clickPoints.CPPerSecUpgradeF
+	game.clickPoints.clickPointsPerSec *= game.clickPoints.CPPerSecUpgrade
         updateBaseClick()
 }
 function getTriangularNumber(num) {
