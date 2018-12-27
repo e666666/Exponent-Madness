@@ -91,6 +91,8 @@ function microPrestige() {
 	}
 	game.clickPoints.clickPointsPerSec *= game.clickPoints.CPPerSecUpgrade
         updateBaseClick()
+	update('maxCP',format(game.clickPoints.maxClickPoints))
+	update('cpPerSec',format(game.clickPoints.CPPerSec))
 }
 function getTriangularNumber(num) {
 	//(n^2-n)/2
@@ -236,14 +238,6 @@ function showElement(elementID) { // makes an element visible
 function hideElement(elementID) { // makes an element invisible
 	document.getElementById(elementID).style.display="none";
 }
-function fromValue(value) {
-  value = value.replace(/,/g, '')
-  if (value.toUpperCase().split("E").length > 2 && value.split(" ")[0] !== value) {
-      var temp = new Decimal(0)
-      temp.mantissa = parseFloat(value.toUpperCase().split("E")[0])
-      temp.exponent = parseFloat(value.toUpperCase().split("E")[1]+"e"+value.toUpperCase().split("E")[2])
-      value = temp.toString()
-  }
 function abbreviate(i) {
     if(i==0) return "k"; // thousand
     if(i==1) return "M"; // million
@@ -364,6 +358,7 @@ function load(save) {
 	update('maxCPCost',format(game.clickPoints.maxCPCost))
 	update('secCPCost',format(game.clickPoints.secCPCost))
 	update('maxCP',format(game.clickPoints.maxClickPoints))
+	update('cpPerSec',format(game.clickPoints.CPPerSec))
 	} catch (e) {
 		console.log('Your save failed to load: '+e)
 	}
