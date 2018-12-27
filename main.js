@@ -242,7 +242,7 @@ function abbreviate(i) {
     if(i==2) return "B"; // billion
     if(i==8) return "Oc";
     if(i==9) return "No";
-    var units = ["","Ud","D","T","Qa","Qi","Sx","Sp","O","N"]; // prefixes for ones place
+    var units = ["","U","D","T","Qa","Qi","Sx","Sp","O","N"]; // prefixes for ones place
     var tens = ["","Dc","Vg","Tg","Qag","Qig","Sxg","Spg","Og","Ng"]; // prefixes for tens place
     var hundreds = ["","Cn","Dcn","Tcn","Qac","Qic","Sxc","Spx","Ocn","Nc"]
     var i2=Math.floor(i/10);
