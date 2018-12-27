@@ -244,74 +244,21 @@ function fromValue(value) {
       temp.exponent = parseFloat(value.toUpperCase().split("E")[1]+"e"+value.toUpperCase().split("E")[2])
       value = temp.toString()
   }
-  if (value.includes(" ")) {
-    const prefixes = [['', 'U', 'D', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'O', 'N'],
-    ['', 'Dc', 'Vg', 'Tg', 'Qag', 'Qig', 'Sxg', 'Spg', 'Og', 'Ng'],
-    ['', 'Cn', 'Dcn', 'Tcn', 'Qac', 'Qic', 'Sxc', 'Spc', 'Ocn', 'Nc']]
-    const prefixes2 = ['', 'Mi', 'Mc', 'Nn', 'Pc', 'Fm', ' ']
-    let e = 0;
-    let m,k,l;
-    if (value.split(" ")[1].length < 5) {
-        for (l=101;l>0;l--) {
-            if (value.includes(FormatList[l])) {
-                e += l*3
-                console.log("caught!"+l)
-
-                break
-            }
-        }
-        return Decimal.fromMantissaExponent(parseInt(value.split(" ")[0]), e)
-    }
-    for (let i=1;i<5;i++) {
-        if (value.includes(prefixes2[i])) {
-            m = value.split(prefixes2[i])[1]
-            for (k=0;k<3;k++) {
-                for (l=1;l<10;l++) {
-                    if (m.includes(prefixes[k][l])) break;
-                }
-                if (l != 10) e += Math.pow(10,k)*l;
-            }
-            break;
-        }
-        return Decimal.fromMantissaExponent(value.split, e*3)
-    }
-    for (let i=1;i<=5;i++) {
-        if (value.includes(prefixes2[i])) {
-            for (let j=1;j+i<6;j++) {
-                if (value.includes(prefixes2[i+j])) {
-                    m=value.split(prefixes2[i+j])[1].split(prefixes2[i])[0]
-                    if (m == "") e += Math.pow(1000,i);
-                    else {
-                        for (k=0;k<3;k++) {
-                            for (l=1;l<10;l++) {
-                                if (m.includes(prefixes[k][l])) break;
-                            }
-                            if (l != 10) e += Math.pow(10,k+i*3)*l;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-    }
-    return Decimal.fromMantissaExponent(parseFloat(value), i*3+3)
-    //return parseFloat(value) + "e" + (e*3+3)
-  }
-  if (!isFinite(parseFloat(value[value.length-1]))) { //needs testing
-    const l = " abcdefghijklmnopqrstuvwxyz"
-    const v = value.replace(parseFloat(value),"")
-    let e = 0;
-    for (let i=0;i<v.length;i++) {
-        for (let j=1;j<27;j++) {
-            if (v[i] == l[j]) e += Math.pow(26,v.length-i-1)*j
-        }
-    }
-    return Decimal.fromMantissaExponent(parseFloat(value), e*3)
-    //return parseFloat(value) + "e" + (e*3)
-  }
-  value = value.replace(',','')
-  if (value.split("e")[0] === "") return Decimal.fromMantissaExponent(Math.pow(10,parseFloat(value.split("e")[1])%1), parseInt(value.split("e")[1]))
-  return Decimal.fromString(value)
+function abbreviate(i) {
+    if(i==0) return "k"; // thousand
+    if(i==1) return "M"; // million
+    if(i==2) return "B"; // billion
+    if(i==8) return "Oc";
+    if(i==9) return "No";
+    var units = ["","U","D","T","Qa","Qi","Sx","Sp","O","N"]; // prefixes for ones place
+    var tens = ["","Dc","Vg","Tg","Qag","Qig","Sxg","Spg","Og","Ng"]; // prefixes for tens place
+    var hundreds = ["","Cn","Dcn","Tcn","Qac","Qic","Sxc","Spx","Ocn","Nc"]
+    var i2=Math.floor(i/10);
+    var i3=Math.floor(i2/10);
+    var unit = units[i%10];
+    var ten = tens[i2%10];
+    var hundred = hundreds[i3%10];
+    return unit+ten+hundred;
 }
 function format(a) { // formats numbers for display
 	var e = Math.floor(Math.log10(a)); // exponent of number
