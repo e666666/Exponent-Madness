@@ -116,7 +116,7 @@ function getCurrentClickAmt(){
         if (game.Aupgs.upgrades.includes("A7")) base *= 1+Math.log10(game.microPrestige.times)/10
 	base *= game.numUpgradeBoost
 	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + Math.pow(game.microPrestige.essence,0.3)
-	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints)/10
+	if(game.Aupgs.upgrades.includes('A9')) base *= max(1 + Math.log10(game.clickPoints.clickPoints)/10,1)
 	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + Math.log10(game.microPrestige.essence + 1)/300
 	if(game.Bupgs.upgrades.includes('B8')) base *= 1 + Math.log10(game.buttonClicks + 1)/310
         return base
