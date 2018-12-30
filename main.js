@@ -5,6 +5,7 @@ function getDefaultSave(){
         	countdown: 0, // counter for the button cooldown
 		buttonClicks: 0,
 		secondsPlayed:0,
+		timeInMicroPrestige:0,
 		numUpgradeCost:1000,
 		numUpgradeBoost:1,
 		clickPoints:{
@@ -19,7 +20,9 @@ function getDefaultSave(){
         	microPrestige:{
                         essence:0,
                         times:0,
-                        essenceMult:1},
+                        essenceMult:1,
+			totalEssence:0,
+		},
         	notation: 0,// standard notation - clearly the best notation!
 		version : 0.2,
 		numeralsBroken:false,
@@ -64,6 +67,8 @@ function microPrestige() {
                 num:game.Bupgs.upgrades.includes('B2')? 1e10:1,
 		numUpgradeCost:1000,
 		buttonClicks: game.buttonClicks,
+		secondsPlayed:game.secondsPlayed,
+		timeInMicroPrestige:0,
 		numUpgradeBoost:1,
                 mult: 1.5,
                 countdown: 0,
@@ -78,9 +83,10 @@ function microPrestige() {
 		},
 		
                 microPrestige:{
-                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(Math.log(game.num),(1/2.2))):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(Math.pow(Math.log(game.num),(1/2.2)),Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
-                        essenceMult: game.microPrestige.essenceMult
+                        essenceMult: game.microPrestige.essenceMult,
+			totalEssence:game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(Math.pow(Math.log(game.num),(1/2.2)),Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                 },
                 notation: game.notation,
                 version:game.version,
@@ -317,7 +323,26 @@ function format(a) { // formats numbers for display
 	if(game.notation==0) return m2+abbreviate(e2/3-1); // standard notation
 	if(game.notation==2) return m2+"e"+e2; // engineering notation
 }
-
+function formatTime(time) {
+	if(time < 60) return String(time) + ' seconds'
+	if(time < 3600) {
+		var mins = Math.floor(time/60)
+		var secs = time - 60 * mins
+		return String(mins) + ' minutes, ' + String(secs) + ' seconds'
+	}
+	if(time < 3600 * 24) {
+		var hours = Math.floor(time/3600)
+		return String(hours) + ' hours, ' + formatTime(time-3600*hours)
+	}
+	if(time < 3600 * 24 * 365) {
+		var days = Math.floor(time/(3600*24))
+		return String(days) + ' days, ' + formatTime(time-3600*24*days)
+	}
+	else {
+		var years = Math.floor(time/(3600*24*365))
+		return String(years) + ' years, ' + formatTime(time-3600*24*365*years)
+	}
+}
 function switchNotation() { // for switching between notations
 	game.notation++;
 	if(game.notation>notationArray.length-1) game.notation=0;
@@ -392,6 +417,12 @@ function load(save) {
 	if(game.secondsPlayed === undefined) {
 		game.secondsPlayed = 0
 	}
+	if(game.timeInMicroPrestige === undefined) {
+		game.timeInMicroPrestige = 0
+	}
+	if(game.microPrestige.totalEssence === undefined) {
+		game.microPrestige.totalEssence = game.microPrestige.essence
+	}
 	if(game.microPrestige.times > 0) {
 		showElement("microEssenceInfo");
 		showElement("microPrestigeTab");
@@ -443,6 +474,8 @@ function updateThings() { // various updates on each tick
 	if(game.countdown === 0) {
 		game.clickPoints.clickPoints += game.clickPoints.clickPointsPerSec
 		game.countdown = 1000
+		game.secondsPlayed ++
+		game.microPrestige.timeInMicroPrestige ++
 	}
 	if(game.clickPoints.clickPoints > game.clickPoints.maxClickPoints) {
 		game.clickPoints.clickPoints = game.clickPoints.maxClickPoints
@@ -458,7 +491,7 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('ueOnReset',format(Math.floor(Math.pow(Math.log10(game.num),(1/2.2)))))
+			update('ueOnReset',format(Math.floor(Math.pow(Math.log(game.num),(1/2.2)))))
 			showElement("microReset");
 		}
 	}
@@ -473,6 +506,11 @@ function updateThings() { // various updates on each tick
 	update('secCPCost',format(game.clickPoints.secCPCost))
 	update('maxCP',format(game.clickPoints.maxClickPoints))
 	update('cpPerSec',format(game.clickPoints.clickPointsPerSec))
+	update('timePlayed',formatTime(game.secondsPlayed))
+	update('buttonClicks',format(game.buttonClicks))
+	update('microPrestiges',format(game.microPrestige.times))
+	update('microTime',formatTime(game.timeInMicroPrestige))
+	update('totalue',format(game.microPrestige.totalEssence))
 	updateButtons()
 }
 
