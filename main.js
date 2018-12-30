@@ -70,6 +70,7 @@ function microPrestige() {
 		secondsPlayed:game.secondsPlayed,
 		timeInMicroPrestige:0,
 		numUpgradeBoost:1,
+		numeralsBroken:game.numeralsBroken,
                 mult: 1.5,
                 countdown: 0,
 		clickPoints:{
@@ -83,10 +84,10 @@ function microPrestige() {
 		},
 		
                 microPrestige:{
-                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(Math.pow(Math.log(game.num),(1/2.2)),Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(Math.log(game.num),(1/2.2))*Math.pow(1.1,game.Aupgs.repeatable.amount)):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
                         essenceMult: game.microPrestige.essenceMult,
-			totalEssence:game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(Math.pow(Math.log(game.num),(1/2.2)),Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+			totalEssence:game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(Math.log(game.num),(1/2.2))*Math.pow(1.1,game.Aupgs.repeatable.amount)):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                 },
                 notation: game.notation,
                 version:game.version,
@@ -175,7 +176,7 @@ function getCurrentClickAmt(){
 }
 
 function step() { // clicks button
-	if(game.Bupgs.upgrades.includes('B5')) {
+	if(game.Bupgs.upgrades.includes('B5') && game.clickPoints.clickPoints >= 2) {
 	   	game.num = game.num*getCurrentClickAmt(); // updates number
 		update("numDisplay",format(game.num)); // update number on the page
 		game.countdown = 1000; // reset cooldown timer
@@ -272,10 +273,23 @@ function buyBupg(number) {
 		updateClass('B' + String(number),'bought')
 	}
 }
+function updateCosts() {
+	update('B5Cost',format(2500))
+	update('B6Cost',format(4000))
+	update('B7Cost',format(18000))
+	update('B9Cost',format(2.4e5))
+	update('B10Cost',format(8e5))
+}
 function breakNumerals() {
 	game.numeralsBroken = true
+	update('break','Fix Numerals')
+	document.getElementById('break').onclick = fixNumerals
 }
-
+function fixNumerals() {
+	game.numeralsBroken = false
+	update('break','Break Numerals!')
+	document.getElementById('break').onclick = breakNumerals
+}
 
 
 //below is all the display funcs
@@ -491,12 +505,13 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('ueOnReset',format(Math.floor(Math.pow(Math.log(game.num),(1/2.2)))))
+			update('ueOnReset',format(Math.floor(Math.pow(Math.log(game.num),(1/2.2))*Math.pow(1.1,game.Aupgs.repeatable.amount))))
 			showElement("microReset");
 		}
 	}
 	update("microEssenceDisplay",format(game.microPrestige.essence));
         updateBaseClick()
+	updateCosts()
 	update('A6power',format(1 + Math.pow(game.microPrestige.essence,0.3)))
 	update("A7power",format(1+Math.log10(game.microPrestige.times)/10));
 	update('A9power',format(1 + Math.log10(game.clickPoints.clickPoints)/10))
