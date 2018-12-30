@@ -2,11 +2,6 @@ body{
   background-color: tan
 }
 
-@font-face {
-    font-family: Typewriter;
-    src: url('MonospaceTypewriter.ttf');
-}
-
 .button {
     border: none;
     padding: 15px 32px;
