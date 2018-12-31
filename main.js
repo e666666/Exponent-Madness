@@ -166,12 +166,12 @@ function getCurrentClickAmt(){
         var base = game.mult
         if (game.Aupgs.upgrades.includes("A8") && game.num.lt(1e33)) base *= 5
         base *= getPercentageGrowthFactor()
-        if (game.Aupgs.upgrades.includes("A7")) base *= 1+Math.log10(game.microPrestige.times)/10
+        if (game.Aupgs.upgrades.includes("A7")) base *= 1+Math.log10(game.microPrestige.times)/8
 	base *= game.numUpgradeBoost
-	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + Math.pow(game.microPrestige.essence,0.3)
-	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints+1)/10
-	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + Math.log10(game.microPrestige.essence + 1)/300
-	if(game.Bupgs.upgrades.includes('B8')) base *= 1 + Math.log10(game.buttonClicks + 1)/310
+	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + Math.pow(game.microPrestige.essence,(1/2.8667))
+	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints+1)/7.5
+	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + Math.log10(game.microPrestige.essence + 1)/250
+	if(game.Bupgs.upgrades.includes('B8')) base *= 1 + Math.log10(game.buttonClicks + 1)/280
         return base
 }
 
