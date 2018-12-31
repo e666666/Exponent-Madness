@@ -84,10 +84,10 @@ function microPrestige() {
 		},
 		
                 microPrestige:{
-                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(game.num.log(2.718),1/2.2) * (Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
                         essenceMult: game.microPrestige.essenceMult,
-			totalEssence:game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(game.num.log(2.718),1/2.2) * (Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+			totalEssence:game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                 },
                 notation: game.notation,
                 version:game.version,
@@ -179,7 +179,6 @@ function step() { // clicks button
 	if(game.Bupgs.upgrades.includes('B5') && game.clickPoints.clickPoints >= 2) {
 	   	game.num = game.num.mul(getCurrentClickAmt()); // updates number
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
-		game.countdown = 1000; // reset cooldown timer
 		game.clickPoints.clickPoints -= 2
 		update("clickPoints",game.clickPoints.clickPoints); 
 		if(game.Bupgs.upgrades.includes('B6')) {
@@ -190,7 +189,6 @@ function step() { // clicks button
 	else if(game.clickPoints.clickPoints >= 3) {
 		game.num = game.num.mul(getCurrentClickAmt()); // updates number
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
-		game.countdown = 1000; // reset cooldown time
 		game.clickPoints.clickPoints -= 3
 		update("clickPoints",game.clickPoints.clickPoints); 
 		if(game.Bupgs.upgrades.includes('B6')) {
@@ -306,21 +304,35 @@ function showElement(elementID) { // makes an element visible
 function hideElement(elementID) { // makes an element invisible
 	document.getElementById(elementID).style.display="none";
 }
-function abbreviate(i) {
-    if(i==0) return "k"; // thousand
-    if(i==1) return "M"; // million
-    if(i==2) return "B"; // billion
-    if(i==8) return "Oc";
-    if(i==9) return "No";
-    var units = ["","U","D","T","Qa","Qi","Sx","Sp","O","N"]; // prefixes for ones place
-    var tens = ["","Dc","Vg","Tg","Qag","Qig","Sxg","Spg","Og","Ng"]; // prefixes for tens place
-    var hundreds = ["","Cn","Dcn","Tcn","Qac","Qic","Sxc","Spx","Ocn","Nc"]
-    var i2=Math.floor(i/10);
-    var i3=Math.floor(i2/10);
-    var unit = units[i%10];
-    var ten = tens[i2%10];
-    var hundred = hundreds[i3%10];
-    return unit+ten+hundred;
+function abbreviate(i,short) {
+	if(short) {
+		if(i==0) return "k"; // thousand
+		if(i==1) return "M"; // million
+		if(i==2) return "B"; // billion
+		if(i==8) return "Oc";
+		if(i==9) return "No";
+	}
+	var returning = ''
+	var units = ["","U","D","T","Qa","Qi","Sx","Sp","O","N"]; // prefixes for ones place
+	var tens = ["","Dc","Vg","Tg","Qag","Qig","Sxg","Spg","Og","Ng"]; // prefixes for tens place
+	var hundreds = ["","Cn","Dcn","Tcn","Qac","Qic","Sxc","Spx","Ocn","Nc"]
+	var thousands = ['','Mi-','Mc-','Nn-','Pc-','Fm-']
+	var i2=Math.floor(i/10);
+	var i3=Math.floor(i2/10);
+	var unit = units[i%10];
+	var ten = tens[i2%10];
+	var hundred = hundreds[i3%10];
+	returning = unit+ten+hundred
+	for(j=Math.floor(Math.log(i)/Math.log(1000));j>0;j--) {
+		var k = Math.floor(i/Math.pow(1000,j)) % 1000
+		if(k === 1) {
+			returning = thousands[j] + returning
+			continue
+		}
+		var blah = thousands[j]
+		returning = abbreviate(k,false) + blah + returning
+	}
+	return returning;
 }
 function format(a) { // formats numbers for display
 	var e = Math.floor(Math.log10(a)); // exponent of number
@@ -334,7 +346,7 @@ function format(a) { // formats numbers for display
 	if (game.notation==3) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
 	var m2 = Math.round(1000*m*Math.pow(10,e-e2))/1000; // base in engineering and standard notations
-	if(game.notation==0) return m2+abbreviate(e2/3-1); // standard notation
+	if(game.notation==0) return m2+abbreviate(e2/3-1,true); // standard notation
 	if(game.notation==2) return m2+"e"+e2; // engineering notation
 }
 function formatDecimal(a) {
@@ -349,7 +361,7 @@ function formatDecimal(a) {
 	if (game.notation==3) return "e"+(Math.round(a.log(10).mul(1000)).div(1000)); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
 	var m2 = Math.round(1000*m*Math.pow(10,e-e2))/1000; // base in engineering and standard notations
-	if(game.notation==0) return m2+abbreviate(e2/3-1); // standard notation
+	if(game.notation==0) return m2+abbreviate(e2/3-1,true); // standard notation
 	if(game.notation==2) return m2+"e"+e2; // engineering notation
 }
 function formatTime(time) {
@@ -524,7 +536,7 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('ueOnReset',format(Math.floor(Math.pow(game.num.log(2.718),1/2.2) * (Math.pow(1.1,game.Aupgs.repeatable.amount)))))
+			update('ueOnReset',format(Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount)))))
 			showElement("microReset");
 		}
 	}
