@@ -166,12 +166,12 @@ function getCurrentClickAmt(){
         var base = game.mult
         if (game.Aupgs.upgrades.includes("A8") && game.num.lt(1e33)) base *= 5
         base *= getPercentageGrowthFactor()
-        if (game.Aupgs.upgrades.includes("A7")) base *= 1+Math.log10(game.microPrestige.times)/8
+        if (game.Aupgs.upgrades.includes("A7")) base *= 1+Math.log10(game.microPrestige.times)/10
 	base *= game.numUpgradeBoost
-	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + Math.pow(game.microPrestige.essence,(1/2.8667))
-	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints+1)/7.5
-	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + Math.log10(game.microPrestige.essence + 1)/250
-	if(game.Bupgs.upgrades.includes('B8')) base *= 1 + Math.log10(game.buttonClicks + 1)/280
+	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + Math.pow(game.microPrestige.essence,0.3)
+	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints+1)/10
+	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + Math.log10(game.microPrestige.essence + 1)/300
+	if(game.Bupgs.upgrades.includes('B8')) base *= 1 + Math.log10(game.buttonClicks + 1)/310
         return base
 }
 
@@ -315,8 +315,8 @@ function abbreviate(i,short) {
 	var returning = ''
 	var units = ["","U","D","T","Qa","Qi","Sx","Sp","O","N"]; // prefixes for ones place
 	var tens = ["","Dc","Vg","Tg","Qag","Qig","Sxg","Spg","Og","Ng"]; // prefixes for tens place
-	var hundreds = ["","Cn","Dcn","Tcn","Qac","Qic","Sxc","Spc","Ocn","Nc"]
-	var thousands = ['','Mi-','Mc-','Nn-','Pc-','Fm-']
+	var hundreds = ["","Cn","Dcn","Tcn","Qac","Qic","Sxc","Spx","Ocn","Nc"]
+	var thousands = ['','MI-','MC-','NA-']
 	var i2=Math.floor(i/10);
 	var i3=Math.floor(i2/10);
 	var unit = units[i%10];
@@ -351,7 +351,7 @@ function format(a) { // formats numbers for display
 }
 function formatDecimal(a) {
 	var e = a.exponent; // exponent of number
-	var m = a.mantissa; // mantissa of number
+	var m = Math.round(a.mantissa*1000)/1000; // mantissa of number
 	if (m>9.9995) { // would round up to 10; this avoids a problem
 		m = 1;
 		e++;
