@@ -388,13 +388,13 @@ function formatDecimal(a) {
 		e++;
 	}
 	if(a.lt(1000)) return a;
-	if (game.notation==1) return m+"e"+e; // scientific notation
-	if (game.notation==3) return "e"+(Math.round(a.log(10).mul(1000)).div(1000)); // log notation
+	if (game.notation==2) return m+"e"+e; // scientific notation
+	if (game.notation==4) return "e"+(Math.round(a.log(10).mul(1000)).div(1000)); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
 	var m2 = Math.round(1000*m*Math.pow(10,e-e2))/1000; // base in engineering and standard notations
 	if(game.notation==0) return m2+abbreviate(e2/3-1,true)// standard notation
 	if(game.notation==1) return m2+abbreviate2(e2/3-1,true); // standard 2.0 notation
-	if(game.notation==2) return m2+"e"+e2; // engineering notation
+	if(game.notation==3) return m2+"e"+e2; // engineering notation
 }
 function formatTime(time) {
 	if(time < 60) return String(time) + ' seconds'
