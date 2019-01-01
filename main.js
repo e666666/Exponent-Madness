@@ -314,7 +314,7 @@ function abbreviate(i,short) {
 	}
 	var returning = ''
 	var units = ["","U","D","T","Qd","Qt","Sx","Sp","O","N"]; // prefixes for ones place
-	var tens = ["","Dc","Vg","Tg","Qa","Qi","Se","St","Og","Ng"]; // prefixes for tens place
+	var tens = ["","Dc","Vg","Tg","Qa","Qi","Se","St","Og","Nn"]; // prefixes for tens place
 	var hundreds = ["","Ce","Dn","Tc","Qe","Qu","Sc","Si","Oe","Ne"]
 	var thousands = ['','MI-','MC-','NA-']
 	var i2=Math.floor(i/10);
