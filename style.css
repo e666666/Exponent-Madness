@@ -2,6 +2,14 @@ body{
   background-color: tan
 }
 
+p {
+  font-family: Optima, sans-serif;
+}
+
+h2 {
+  font-family: Optima, sans-serif;
+}
+
 .button {
     border: none;
     padding: 15px 32px;
