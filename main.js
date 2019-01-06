@@ -464,9 +464,10 @@ function load(save) {
 			clickPoints: 0,
 			maxClickPoints:3,
 			clickPointsPerSec:1,
-			maxCPCost:1000,
-			secCPCost:1e10,
-			CPPerUpgrade:1,
+			maxCPCost:new Decimal(1000),
+			secCPCost:new Decimal(1e10),
+			CPPerUpgrade: 1,
+			CPPerSecUpgrade: 1,
 		}
 	}
 	if(game.clickPoints.CPPerUpgrade === undefined) {
