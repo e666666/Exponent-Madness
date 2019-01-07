@@ -157,8 +157,8 @@ function getTriangularNumber(num) {
 function getPercentageGrowthFactor(){
         var mult = 1
 	if (game.num.gt(1e5)) mult = 1 + 0.0025*Math.max(0,Math.floor(game.num.log(10))-5) // the alway additive mult
-        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*getTriangularNumber(game.num.log(10))
-	if(game.Bupgs.upgrades.includes('B3')) mult *= 1 + 0.015 * getTriangularNumber(game.num.log(10))
+        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*getTriangularNumber(max(game.num.log(10),0))
+	if(game.Bupgs.upgrades.includes('B3')) mult *= 1 + 0.015 * getTriangularNumber(max(game.num.log(10),0))
 	return mult
 }
 
