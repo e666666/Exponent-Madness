@@ -294,7 +294,7 @@ function fixNumerals() {
 //otherwise know to pg as the dont touch funcs xD
 
 var currentTab = "main";
-	var notationArray = ['Standard',"Standard 2.0","Scientific","Engineering","Logarithm"];
+	var notationArray = ['Standard',"Standard 2.0","Scientific","Engineering","Logarithm","Full Written"];
 function update(set,get){ // for updating display
 	document.getElementById(set).innerHTML=get
 }
@@ -364,6 +364,44 @@ function abbreviate2(i,short) {
 	}
 	return returning;
 }
+function fullwritten(i,short) {
+	if(short) {
+		if(i==0) return "thousand"; // thousand
+		if(i==1) return "million"; // million
+		if(i==2) return "billion"; // billion
+		if(i==3) return "trillion";
+		if(i==4) return "quadrillion";
+		if(i==5) return "quintillion";
+		if(i==6) return "sextillion";
+		if(i==7) return "septillion";
+		if(i==8) return "octillion";
+		if(i==9) return "nonillion";
+		if(i=1000) return "millillion";
+		if(i=1e6) return "micrillion";
+		if(i=1e9) return "nanillion";
+	}
+	var returning = ''
+	var units = ["","un","duo","tre","quattuor","quin","sex","septen","octo","novem"]; // prefixes for ones place
+	var tens = ["","dec","vigin","trigin","quadragin","quinquagin","sexagin","septuagin","octogin","nonagin"]; // prefixes for tens place
+	var hundreds = ["","cen","duocen","trecen","quadringen","quingen","sescen","septingen","octingen","nongen"]
+	var thousands = ['','milli','micro','nano']
+	var i2=Math.floor(i/10);
+	var i3=Math.floor(i2/10);
+	var unit = units[i%10];
+	var ten = tens[i2%10];
+	var hundred = hundreds[i3%10];
+	returning = unit+ten+hundred
+	for(j=Math.floor(Math.log(i)/Math.log(1000));j>0;j--) {
+		var k = Math.floor(i/Math.pow(1000,j)) % 1000
+		if(k === 1) {
+			returning = thousands[j] + returning
+			continue
+		}
+		var blah = thousands[j]
+		returning = abbreviate2(k,false) + blah + returning
+	}
+	return returning;
+}
 function format(a) { // formats numbers for display
 	var e = Math.floor(Math.log10(a)); // exponent of number
 	var m = Math.round(Math.pow(10,Math.log10(a)-e)*1000)/1000; // mantissa of number
@@ -379,6 +417,7 @@ function format(a) { // formats numbers for display
 	if(game.notation==0) return m2+abbreviate(e2/3-1,true)// standard notation
 	if(game.notation==1) return m2+abbreviate2(e2/3-1,true); // standard 2.0 notation
 	if(game.notation==3) return m2+"e"+e2; // engineering notation
+	if(game.notation==5) return m2+fullwritten(e2/3-1,true); // fully written notation
 }
 function formatDecimal(a) {
 	var e = a.exponent; // exponent of number
@@ -395,6 +434,7 @@ function formatDecimal(a) {
 	if(game.notation==0) return m2+abbreviate(e2/3-1,true)// standard notation
 	if(game.notation==1) return m2+abbreviate2(e2/3-1,true); // standard 2.0 notation
 	if(game.notation==3) return m2+"e"+e2; // engineering notation
+	if(game.notation==5) return m2+fullwritten(e2/3-1,true); // full written notation
 }
 function formatTime(time) {
 	if(time < 60) return String(time) + ' seconds'
