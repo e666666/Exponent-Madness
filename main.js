@@ -390,7 +390,7 @@ function fullwritten(i,short) {
 	var unit = units[i%10];
 	var ten = tens[i2%10];
 	var hundred = hundreds[i3%10];
-	returning = unit+ten+hundred
+	returning = unit+ten+hundred+"tillion"
 	for(j=Math.floor(Math.log(i)/Math.log(1000));j>0;j--) {
 		var k = Math.floor(i/Math.pow(1000,j)) % 1000
 		if(k === 1) {
