@@ -364,44 +364,56 @@ function abbreviate2(i,short) {
 	}
 	return returning;
 }
-function fullwritten(i,short) {
-	if(short) {
-		if(i==0) return "thousand"; // thousand
-		if(i==1) return "million"; // million
-		if(i==2) return "billion"; // billion
-		if(i==3) return "trillion";
-		if(i==4) return "quadrillion";
-		if(i==5) return "quintillion";
-		if(i==6) return "sextillion";
-		if(i==7) return "septillion";
-		if(i==8) return "octillion";
-		if(i==9) return "nonillion";
-		if(i=1000) return "millillion";
-		if(i=1e6) return "micrillion";
-		if(i=1e9) return "nanillion";
-	}
-	var returning = ''
-	var units = ["","un","duo","tre","quattuor","quin","sex","septen","octo","novem"]; // prefixes for ones place
-	var tens = ["","dec","vigin","trigin","quadragin","quinquagin","sexagin","septuagin","octogin","nonagin"]; // prefixes for tens place
-	var hundreds = ["","cen","duocen","trecen","quadringen","quingen","sescen","septingen","octingen","nongen"]
-	var thousands = ['','milli','micro','nano']
-	var i2=Math.floor(i/10);
-	var i3=Math.floor(i2/10);
-	var unit = units[i%10];
-	var ten = tens[i2%10];
-	var hundred = hundreds[i3%10];
-	returning = unit+ten+hundred+"tillion"
-	for(j=Math.floor(Math.log(i)/Math.log(1000));j>0;j--) {
-		var k = Math.floor(i/Math.pow(1000,j)) % 1000
-		if(k === 1) {
-			returning = thousands[j] + returning
-			continue
-		}
-		var blah = thousands[j]
-		returning = abbreviate2(k,false) + blah + returning
-	}
-	return returning;
-}
+var notations=notations||{};
+notations.normalbig=(function (i){
+  if (i.lt(0)) return "-"+notations.normalbig(Decimal.abs(i));
+  if (i.isNaN()) return "NaN";
+  if (!(i.isFinite())) return "Infinity";
+  if (i.lt(1000)) return i.toString();
+  if (i.gte(1000)&&i.lt(1e+6)){
+    var h=Number(i);
+    var l;
+    var r=Math.floor(h%1000);
+    l=String(r);
+    if (r<10) l="00"+l;
+    if ((r>=10)&&(r<100)) l="0"+l;
+    return Math.floor(h/1000)+","+l;
+  }
+  var numbernames=["thousand","million","billion","trillion","quadrillion","quintillion","sextillion","septillion","octillion","nonillion","decillion","undecillion","duodecillion","tredecillion","quattuordecillion","quindecillion","sexdecillion","septendecillion","octodecillion","novemdecillion"];
+  var namefragments=[["","un","duo","tre","quattuor","quinqua","se","septe","outo","nove"],["","deci","viginti","triginta","quadraginta","quinquaginta","sexaginta","septuaginta","octoginta","nonaginta"],["","centi","ducenti","trecenti","quadringenti","quingenti","sesgenti","septingenti","octingenti","nongenti"],["","milli","micro","nano","pico","femto"]];
+  var e=3*Math.floor(Number(Decimal.log10(i))/3);
+  var l=Math.floor(e/3)-1;
+  //console.log(l);
+  if (l<=19){
+    return Math.floor(Number(i.div(Decimal("1e+"+e)))*1000)/1000+" "+numbernames[l];
+  }else{
+    var r="";
+    var s;
+    var mu;
+    for (var g=Math.floor(Math.log10(l)/3);g>=0;g--){
+      var mu=Math.floor(l/Math.pow(1000,g))%1000;
+      s="";
+      if ((mu===1)&&(g!==0)){
+        s="";
+      }else if ((mu<=19)&&(g===0)){
+        s=numbernames[mu];
+      }else{
+        var d=[mu%10,Math.floor(mu%100/10),Math.floor(mu/100)];
+        s=namefragments[0][d[0]];
+        if ([3,6].includes(d[0])&&(((d[1]!=0)&&[2,3,4,5].includes(d[1]))||((d[1]==0)&&[3,4].includes(d[2]==3)))) s+="s";
+        if ((d[0]==6)&&(((d[1]!=0)&&(d[1]==8))||((d[1]==0)&&(d[2]==8)))) s+="x";
+        if ([7,9].includes(d[0])&&(((d[1]!=0)&&[1,3,4,5,6,7].includes(d[1]))||((d[1]==0)&&[2,3,4,5,6,7].includes(d[2])))) s+="n";
+        if ([7,9].includes(d[0])&&(((d[1]!=0)&&((d[1]==2)||(d[1]==8)))||((d[1]==0)&&(d[2]==8)))) s+="m";
+        s+=namefragments[1][d[1]]+namefragments[2][d[2]];
+      }
+      if (mu!==0) r+=s+namefragments[3][g];
+    }
+    var w=r.charAt(r.length-1);
+    if ((w=="a")||(w=="i")) r=r.substr(0,r.length-1);
+    r+="illion";
+    return Math.floor(Number(i.div(Decimal("1e+"+e)))*1000)/1000+" "+r;
+  }
+});
 function format(a) { // formats numbers for display
 	var e = Math.floor(Math.log10(a)); // exponent of number
 	var m = Math.round(Math.pow(10,Math.log10(a)-e)*1000)/1000; // mantissa of number
@@ -417,7 +429,7 @@ function format(a) { // formats numbers for display
 	if(game.notation==0) return m2+abbreviate(e2/3-1,true)// standard notation
 	if(game.notation==1) return m2+abbreviate2(e2/3-1,true); // standard 2.0 notation
 	if(game.notation==3) return m2+"e"+e2; // engineering notation
-	if(game.notation==5) return m2+fullwritten(e2/3-1,true); // fully written notation
+	if(game.notation==5) return Math.floor(Number(i.div(Decimal("1e+"+e)))*1000)/1000+" "+r;// fully written notation
 }
 function formatDecimal(a) {
 	var e = a.exponent; // exponent of number
@@ -434,7 +446,7 @@ function formatDecimal(a) {
 	if(game.notation==0) return m2+abbreviate(e2/3-1,true)// standard notation
 	if(game.notation==1) return m2+abbreviate2(e2/3-1,true); // standard 2.0 notation
 	if(game.notation==3) return m2+"e"+e2; // engineering notation
-	if(game.notation==5) return m2+fullwritten(e2/3-1,true); // full written notation
+	if(game.notation==5) return Math.floor(Number(i.div(Decimal("1e+"+e)))*1000)/1000+" "+r; // full written notation
 }
 function formatTime(time) {
 	if(time < 60) return String(time) + ' seconds'
