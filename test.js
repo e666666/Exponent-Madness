@@ -17,8 +17,8 @@ function getShortAbbreviation(e) {
 	'Hxt', 'MeHxt', 'DuHxt', 'TrHxt', 'TtHxt', 'PtHxt', 'HxHxt', 'HpHxt', 'OtHxt', 'EnHxt', 
 	'Hpt', 'MeHpt', 'DuHpt', 'TrHpt', 'TtHpt', 'PtHpt', 'HxHpt', 'HpHpt', 'OtHpt', 'EnHpt', 
 	'Ott', 'MeOtt', 'DuOtt', 'TrOtt', 'TtOtt', 'PtOtt', 'HxOtt', 'HpOtt', 'OtOtt', 'EnOtt', 
-	'Ent', 'MeEnt', 'DEC', 'TEC', 'TeEC', 'PEC', 'HEC', 'HeEC', 'OEC', 'EEC', 
-	'Hct', 'MHT', 'DHT']
+	'Ent', 'MeEnt', 'DuEnt', 'TrEnt, 'TtEnt', 'PtEnt', 'HxEnt', 'HpEnt', 'OtEnt', 'EnEnt', 
+	'Hct', 'MeHct', 'DuHct']
 	var result = ''
 	var id = Math.floor(e/3-1)
 	var log = Math.floor(Math.log10(id))
