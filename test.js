@@ -25,20 +25,48 @@ function getShortAbbreviation(e) {
 	['', 'Hct', 'Dhc', 'Thc', 'Trh', 'Phc', 'Hxh', 'Hph', 'Ohc', 'Ehc']]
 	let prefixes3 = ["", "Kl", "Mg", "Gg", "Tr", "Pt"]
 	var result = ''
-	var id = Math.floor(e/3-1)
-	var log = Math.floor(Math.log10(id))
-	var step = Math.max(Math.floor(log/3-3),0)
-	id = Math.round(id/Math.pow(10,Math.max(log-9,0)))*Math.pow(10,Math.max(log-9,0)%3)
-    while (id > 0) {		
-		var partE = id % 1000
-		if (partE > 0) {
-			if (partE == 1 && step > 0) var prefix = ""
-			else var prefix = prefixes[0][partE % 10] + prefixes[1][Math.floor(partE/10) % 10] + prefixes[2][Math.floor(partE/100)]
-			if (result == "") result = prefix + prefixes2[step]
-			else result = prefix + prefixes2[step] + '-' + result
+			if (typeof(e)=="number") {
+				var id = Math.floor(e/3-1)
+				var log = Math.floor(Math.log10(id))
+				var step = Math.max(Math.floor(log/3-3),0)
+				id = Math.round(id/Math.pow(10,Math.max(log-9,0)))*Math.pow(10,Math.max(log-9,0)%3)
+			} else {
+				var id = e.div(3)
+				var log = Math.floor(id.log10())
+				var step = Math.max(Math.floor(log/3-3),0)
+				id = Math.round(id.div(Decimal_BI.pow(10,Math.max(log-9,0))).toNumber())*Math.pow(10,Math.max(log-9,0)%3)
+			}
+			while (id > 0) {		
+				var partE = id % 1000
+				if (partE > 0) {
+					if (partE == 1 && step > 0) var prefix = ""
+					else var prefix = prefixes[0][partE % 10] + prefixes[1][Math.floor(partE/10) % 10] + prefixes[2][Math.floor(partE/100)]
+					var result2 = ""
+					if (step > 102) {
+						var s2 = step
+						var stepT3 = 0
+						while (s2 > 0) {
+							partS = s2 % 1000
+							if (partS > 0) {
+								if (partS > 1 || stepT3 < 1) {
+									prefix2 = prefixes2H[1][Math.floor(partS/10)%10]
+									if (partS%100==10) prefix2 = "VE"
+									if (partS%100==20) prefix2 = "IS"
+									prefix2 = prefixes2H[0][partS%10] + prefix2 + prefixes2H[2][Math.floor(partS/100)]
+								} else prefix2 = ""
+								if (result2 == "") result2 = prefix2 + prefixes3[stepT3]
+								else result2 = prefix2 + prefixes3[stepT3] + "a-" + result2
+							}
+							s2 = Math.floor(s2/1000)
+							stepT3++
+						}
+						
+					} else result2 = prefixes2[step]
+					if (result == "") result = prefix + result2
+					else result = prefix + result2 + '-' + result
+				}
+				id = Math.floor(id/1000)
+				step++
+			}
+			document.getElementById('result').textContent = "Standard: "+result+"s"
 		}
-		id = Math.floor(id/1000)
-		step++
-	}
-	return result
-}
