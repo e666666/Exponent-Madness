@@ -19,6 +19,11 @@ function getShortAbbreviation(e) {
 	'Ott', 'MeOtt', 'DuOtt', 'TrOtt', 'TtOtt', 'PtOtt', 'HxOtt', 'HpOtt', 'OtOtt', 'EnOtt', 
 	'Ent', 'MeEnt', 'DuEnt', 'TrEnt, 'TtEnt', 'PtEnt', 'HxEnt', 'HpEnt', 'OtEnt', 'EnEnt', 
 	'Hct', 'MeHct', 'DuHct']
+	let prefixes2H = [
+	['', 'Me', 'Du', 'Tr', 'Tt', 'Pt', 'Hx', 'Hp', 'Ot', 'En'],
+	['', 'Vc', 'Ic', 'Trt', 'Ttt', 'Pt', 'Xt', 'Ht', 'Oct', 'Et'],
+	['', 'Hct', 'Dhc', 'Thc', 'Trh', 'Phc', 'Hxh', 'Hph', 'Ohc', 'Ehc']]
+	let prefixes3 = ["", "Kl", "Mg", "Gg", "Tr", "Pt"]
 	var result = ''
 	var id = Math.floor(e/3-1)
 	var log = Math.floor(Math.log10(id))
