@@ -37,8 +37,8 @@ function getDefaultSave(){
 			upgrades:[]//the var for storing the stuff
 		},
 		Bupgs:{
-			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10'],
-			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5],
+			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11'],
+			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5,2.5e6],
 			upgrades:[]
 		}
 		
@@ -84,10 +84,10 @@ function microPrestige() {
 		},
 		
                 microPrestige:{
-                        essence: game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+                        essence: game.numeralsBroken? game.microPrestige.essence + getMicroEssenceAmt():game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
                         essenceMult: game.microPrestige.essenceMult,
-			totalEssence:game.numeralsBroken? game.microPrestige.essence + Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount))):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+			totalEssence:game.numeralsBroken? game.microPrestige.essence + getMicroEssenceAmt():game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                 },
                 notation: game.notation,
                 version:game.version,
@@ -127,7 +127,7 @@ function updateButtons() {
 	else{
 		updateClass('CP2','unbuyable')
 	}
-	for(i=0;i<9;i++) {
+	for(i=0;i<game.Aupgs.possible.length;i++) {
 		if(game.microPrestige.essence >= game.Aupgs.cost[i] && !(game.Aupgs.upgrades.includes('A'+String(i+1)))) {
 			updateClass('A'+String(i+1),'buyable')
 		}
@@ -138,7 +138,7 @@ function updateButtons() {
 	if(game.microPrestige.essence >= game.Aupgs.repeatable.cost) {
 		updateClass('AR','buyable')
 	}
-	for(i=0;i<10;i++) {
+	for(i=0;i<game.Bupgs.possible.length;i++) {
 		if(game.microPrestige.essence >= game.Bupgs.cost[i] && !(game.Bupgs.upgrades.includes('B'+String(i+1)))) {
 			updateClass('B'+String(i+1),'buyable')
 		}
@@ -157,8 +157,8 @@ function getTriangularNumber(num) {
 function getPercentageGrowthFactor(){
         var mult = 1
 	if (game.num.gt(1e5)) mult = 1 + 0.0025*Math.max(0,Math.floor(game.num.log(10))-5) // the alway additive mult
-        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*getTriangularNumber(max(game.num.log(10),0))
-	if(game.Bupgs.upgrades.includes('B3')) mult *= 1 + 0.015 * getTriangularNumber(max(game.num.log(10),0))
+        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*getTriangularNumber(Math.max(game.num.log(10),0))
+	if(game.Bupgs.upgrades.includes('B3')) mult *= 1 + 0.015 * getTriangularNumber(Math.max(game.num.log(10),0))
 	return mult
 }
 
@@ -260,6 +260,12 @@ function buyMaxRepeatA(){
 }
 
 //B Section
+function getMicroEssenceAmt() {
+	if(game.Bupgs.upgrades.includes('B11')) {
+		return format(Math.pow(game.num,1/(2*Math.pow(game.num.log(10),0.5))))
+	}
+	return format(Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount))))
+}
 function buyBupg(number) {
 	var cost = game.Bupgs.cost[number-1]
 	if(number === 5 && !(game.Bupgs.upgrades.includes('B1'))) {
@@ -277,6 +283,7 @@ function updateCosts() {
 	update('B7Cost',format(18000))
 	update('B9Cost',format(2.4e5))
 	update('B10Cost',format(8e5))
+	update('B11Cost',format(2.5e6))
 }
 function breakNumerals() {
 	game.numeralsBroken = true
@@ -294,7 +301,7 @@ function fixNumerals() {
 //otherwise know to pg as the dont touch funcs xD
 
 var currentTab = "main";
-	var notationArray = ['Standard',"Standard 2.0","Scientific","Engineering","Logarithm","Full Written"];
+	var notationArray = ['Standard',"Standard 2.0","Scientific","Engineering","Logarithm"];
 function update(set,get){ // for updating display
 	document.getElementById(set).innerHTML=get
 }
@@ -364,56 +371,6 @@ function abbreviate2(i,short) {
 	}
 	return returning;
 }
-var notations=notations||{};
-notations.normalbig=(function (i){
-  if (i.lt(0)) return "-"+notations.normalbig(Decimal.abs(i));
-  if (i.isNaN()) return "NaN";
-  if (!(i.isFinite())) return "Infinity";
-  if (i.lt(1000)) return i.toString();
-  if (i.gte(1000)&&i.lt(1e+6)){
-    var h=Number(i);
-    var l;
-    var r=Math.floor(h%1000);
-    l=String(r);
-    if (r<10) l="00"+l;
-    if ((r>=10)&&(r<100)) l="0"+l;
-    return Math.floor(h/1000)+","+l;
-  }
-  var numbernames=["thousand","million","billion","trillion","quadrillion","quintillion","sextillion","septillion","octillion","nonillion","decillion","undecillion","duodecillion","tredecillion","quattuordecillion","quindecillion","sexdecillion","septendecillion","octodecillion","novemdecillion"];
-  var namefragments=[["","un","duo","tre","quattuor","quinqua","se","septe","outo","nove"],["","deci","viginti","triginta","quadraginta","quinquaginta","sexaginta","septuaginta","octoginta","nonaginta"],["","centi","ducenti","trecenti","quadringenti","quingenti","sesgenti","septingenti","octingenti","nongenti"],["","milli","micro","nano","pico","femto"]];
-  var e=3*Math.floor(Number(Decimal.log10(i))/3);
-  var l=Math.floor(e/3)-1;
-  //console.log(l);
-  if (l<=19){
-    return Math.floor(Number(i.div(Decimal("1e+"+e)))*1000)/1000+" "+numbernames[l];
-  }else{
-    var r="";
-    var s;
-    var mu;
-    for (var g=Math.floor(Math.log10(l)/3);g>=0;g--){
-      var mu=Math.floor(l/Math.pow(1000,g))%1000;
-      s="";
-      if ((mu===1)&&(g!==0)){
-        s="";
-      }else if ((mu<=19)&&(g===0)){
-        s=numbernames[mu];
-      }else{
-        var d=[mu%10,Math.floor(mu%100/10),Math.floor(mu/100)];
-        s=namefragments[0][d[0]];
-        if ([3,6].includes(d[0])&&(((d[1]!=0)&&[2,3,4,5].includes(d[1]))||((d[1]==0)&&[3,4].includes(d[2]==3)))) s+="s";
-        if ((d[0]==6)&&(((d[1]!=0)&&(d[1]==8))||((d[1]==0)&&(d[2]==8)))) s+="x";
-        if ([7,9].includes(d[0])&&(((d[1]!=0)&&[1,3,4,5,6,7].includes(d[1]))||((d[1]==0)&&[2,3,4,5,6,7].includes(d[2])))) s+="n";
-        if ([7,9].includes(d[0])&&(((d[1]!=0)&&((d[1]==2)||(d[1]==8)))||((d[1]==0)&&(d[2]==8)))) s+="m";
-        s+=namefragments[1][d[1]]+namefragments[2][d[2]];
-      }
-      if (mu!==0) r+=s+namefragments[3][g];
-    }
-    var w=r.charAt(r.length-1);
-    if ((w=="a")||(w=="i")) r=r.substr(0,r.length-1);
-    r+="illion";
-    return Math.floor(Number(i.div(Decimal("1e+"+e)))*1000)/1000+" "+r;
-  }
-});
 function format(a) { // formats numbers for display
 	var e = Math.floor(Math.log10(a)); // exponent of number
 	var m = Math.round(Math.pow(10,Math.log10(a)-e)*1000)/1000; // mantissa of number
@@ -429,7 +386,6 @@ function format(a) { // formats numbers for display
 	if(game.notation==0) return m2+abbreviate(e2/3-1,true)// standard notation
 	if(game.notation==1) return m2+abbreviate2(e2/3-1,true); // standard 2.0 notation
 	if(game.notation==3) return m2+"e"+e2; // engineering notation
-	if(game.notation==5) return Math.floor(Number(i.div(Decimal("1e+"+e)))*1000)/1000+" "+r;// fully written notation
 }
 function formatDecimal(a) {
 	var e = a.exponent; // exponent of number
@@ -446,7 +402,6 @@ function formatDecimal(a) {
 	if(game.notation==0) return m2+abbreviate(e2/3-1,true)// standard notation
 	if(game.notation==1) return m2+abbreviate2(e2/3-1,true); // standard 2.0 notation
 	if(game.notation==3) return m2+"e"+e2; // engineering notation
-	if(game.notation==5) return Math.floor(Number(i.div(Decimal("1e+"+e)))*1000)/1000+" "+r; // full written notation
 }
 function formatTime(time) {
 	if(time < 60) return String(time) + ' seconds'
@@ -506,10 +461,14 @@ function load(save) {
 	}
 	if(game.Bupgs === undefined) {
 		game.Bupgs = {
-			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10'],
-			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5],
+			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11'],
+			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5,2.5e6],
 			upgrades:[]
 		}
+	}
+	if(!(game.Bupgs.possible.includes('B11'))) {
+		game.Bupgs.possible = ['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11']
+		game.Bupgs.cost = [     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5,2.5e6]
 	}
 	if(game.clickPoints === undefined) {
 		game.clickPoints = {
@@ -621,7 +580,7 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('ueOnReset',format(Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount)))))
+			update('ueOnReset',getMicroEssenceAmt())
 			showElement("microReset");
 		}
 	}
