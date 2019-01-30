@@ -262,9 +262,9 @@ function buyMaxRepeatA(){
 //B Section
 function getMicroEssenceAmt() {
 	if(game.Bupgs.upgrades.includes('B11')) {
-		return format(Math.pow(game.num,1/(2*Math.pow(game.num.log(10),0.5))))
+		return Math.pow(game.num,1/(2*Math.pow(game.num.log(10),0.5)))
 	}
-	return format(Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount))))
+	return Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount)))
 }
 function buyBupg(number) {
 	var cost = game.Bupgs.cost[number-1]
@@ -580,7 +580,7 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('ueOnReset',getMicroEssenceAmt())
+			update('ueOnReset',format(getMicroEssenceAmt()))
 			showElement("microReset");
 		}
 	}
