@@ -84,10 +84,10 @@ function microPrestige() {
 		},
 		
                 microPrestige:{
-                        essence: game.numeralsBroken? game.microPrestige.essence + getMicroEssenceAmt():game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+                        essence: game.numeralsBroken? game.microPrestige.essence + getMicroEssenceAmt(game.num):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
                         essenceMult: game.microPrestige.essenceMult,
-			totalEssence:game.numeralsBroken? game.microPrestige.essence + getMicroEssenceAmt():game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+			totalEssence:game.numeralsBroken? game.microPrestige.totalEssence + getMicroEssenceAmt(game.num):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                 },
                 notation: game.notation,
                 version:game.version,
@@ -181,8 +181,9 @@ function step() { // clicks button
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
 		game.clickPoints.clickPoints -= 2
 		update("clickPoints",game.clickPoints.clickPoints); 
-		if(game.Bupgs.upgrades.includes('B6')) {
-		   game.microPrestige.essence ++
+		if(game.Bupgs.upgrades.includes('B7')) {
+			game.microPrestige.essence ++
+			game.microPrestige.totalEssence ++
 		}
 		game.buttonClicks ++
 	}
@@ -191,8 +192,9 @@ function step() { // clicks button
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
 		game.clickPoints.clickPoints -= 3
 		update("clickPoints",game.clickPoints.clickPoints); 
-		if(game.Bupgs.upgrades.includes('B6')) {
-		   game.microPrestige.essence ++
+		if(game.Bupgs.upgrades.includes('B7')) {
+			game.microPrestige.essence ++
+			game.microPrestige.totalEssence ++
 		}
 		game.buttonClicks ++
 	}
@@ -260,9 +262,9 @@ function buyMaxRepeatA(){
 }
 
 //B Section
-function getMicroEssenceAmt() {
+function getMicroEssenceAmt(num) {
 	if(game.Bupgs.upgrades.includes('B11')) {
-		return Math.pow(game.num,1/(2*Math.pow(game.num.log(10),0.5)))
+		return num.pow(1/(2*Math.pow(Math.max(num.log(10),0),0.5))) * (Math.pow(1.1,game.Aupgs.repeatable.amount))
 	}
 	return Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount)))
 }
@@ -564,7 +566,7 @@ function updateThings() { // various updates on each tick
 		game.clickPoints.clickPoints += game.clickPoints.clickPointsPerSec
 		game.countdown = 1000
 		game.secondsPlayed ++
-		game.microPrestige.timeInMicroPrestige ++
+		game.timeInMicroPrestige ++
 	}
 	if(game.clickPoints.clickPoints > game.clickPoints.maxClickPoints) {
 		game.clickPoints.clickPoints = game.clickPoints.maxClickPoints
@@ -580,7 +582,7 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('ueOnReset',format(getMicroEssenceAmt()))
+			update('ueOnReset',format(getMicroEssenceAmt(game.num)))
 			showElement("microReset");
 		}
 	}
