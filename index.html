@@ -9,11 +9,13 @@
         <body onload="init()">
                 <p>Number: <div id="numDisplay">1</div></p>
                 <p style="text-align:right;"><div id="microEssenceInfo" style="display:none">Micro Essence: <div id="microEssenceDisplay">0</div></div></p>
-                <button class="button unbuyable" onclick="switchTab('main')">Main</button>
+		<p><div id = 'milliEssenceInfo' style = 'display:none'>Milli Essence: <div id = 'milliEssenceDisplay'>0</div></div></p>
+		<button class="button unbuyable" onclick="switchTab('main')">Main</button>
                 <button class="button unbuyable" onclick="switchTab('options')">Options</button>
 		<button class = 'button unbuyable' onclick = 'switchTab("stats")'>Statistics</button>
                 <button id="microPrestigeTab" class="button unbuyable" style="display:none" onclick="switchTab('microprestige')">Micro Prestige</button>
                 <button id = 'breakNumeralsTab' class = 'button unbuyable' style = 'display:none' onclick = "switchTab('breaknumerals')">Break Numerals</button>
+		<button id = 'milliPrestigeTab' class = 'button unbuyable' style = 'display:none' onclick = 'switchTab("milliprestige")'>Milli Prestige</button>
 		<div id="main" style="display:inline-block">
                         <div id="increaseNumber">
                                 <button class="button unbuyable" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div> for 3 Click Points</button>
@@ -31,6 +33,7 @@
                                 <button class="button unbuyable" onclick="microPrestige()">Reset your number, but get 1 Micro essence for upgrades.</button>
                         </div>
                         <button class = 'button unbuyable' onclick = 'microPrestige()' style = 'display:none' id = 'microReset'>Reset your number, but gain <div id = 'ueOnReset'>1</div> Micro Essence</button>
+			<button class = 'button unbuyable' onclick = 'milliPrestige()' style = 'display:none' id = 'milliReset'>Reset your number, micro essence, and A and B upgrades, but gain <div id = 'meOnReset'>1</div>Milli Essence</button>
                 </div>
                 <div id="options" style="display:none">
                         <button class="button unbuyable" onclick="save()">Save</button>
@@ -88,6 +91,20 @@
 				</tr>
 			</table>
 		</div>
+		<div id = 'milliprestige' style = 'display:none'>
+			<table>
+				<tr>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(1)' id = 'C1'>The base growth factor is now 5x. Cost: 1 mE</button></td>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(2)' id = 'C2'>The growth factor is higher based on the order of magnitudes the number has (1OoM=2%, 3OoM=4%, 6OoM, 10OoM…). Removes the effect of B3. Cost: 5 mE</button></td>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(3)' id = 'C3'>CP/s is multiplied by 5/3. Cost: 20 mE</button></td>
+				</tr>
+				<tr>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(4)' id = 'C4'>The growth factor is higher based on time spent this Milli Prestige (1+log(seconds)/200). Cost:80 mE</button></td>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(5)' id = 'C5'>Max CP is now doubled again. Cost: 256 mE</button></td>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(6)' id = 'C6'>Unlock Milli Challenges. Cost: 640 mE</button></td>
+				</tr>
+			</table>
+		</div>
 		<div id = 'stats' style = 'display:none; text-align:left'>
 			<p>You have played for<div id = 'timePlayed'>0 seconds</div></p>
 			<p>You have clicked the button<div id = 'buttonClicks'>0</div>times.</p>
@@ -95,6 +112,6 @@
 			<p>Time in this micro prestige: <div id = 'microTime'>0 seconds</div></p>
 			<p>Total µE gained: <div id = 'totalue'>0</div></p>
 		</div>
-		<center><h3><a href="https://itmarki.github.io/exponent-madness/">Changelog</a></h3></center>
+		<center><h3><a href="https://math123468.github.io/exponent-madness/changelog.html">Changelog</a></h3></center>
         </body>
 </html>
