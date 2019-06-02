@@ -18,21 +18,21 @@
 		<button id = 'milliPrestigeTab' class = 'button unbuyable' style = 'display:none' onclick = 'switchTab("milliprestige")'>Milli Prestige</button>
 		<div id="main" style="display:inline-block">
                         <div id="increaseNumber">
-                                <button class="button unbuyable" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div> for 3 Click Points</button>
+                                <button class="button unbuyable" onclick="step()">Multiply the number by <span id="multDisplay">1.5</span> for 3 Click Points</button>
 				<p>You have <span id="clickPoints">0</span> Click Points.</p>
 				<p>You are gaining <span id = 'cpPerSec'>1</span> per second</p>
                                 <p>Your max Click Points is <span id = 'maxCP'>3</span></p>
                         </div>
                         <div id = 'numberUpgrades'>
-                                <button class = 'button unbuyable' onclick = 'numUpgrade()' id = 'Num1'>Increase growth rate by 0.25 percent. Cost: Divides your number by<div id = 'numCost'>1000</div></button>
-                                <button class = 'button unbuyable' onclick = 'maxCPUpgrade()' id = 'CP1'>Increase your max CP by 1. Cost: Divides your number by <div id = 'maxCPCost'>1000</div></button>
-                                <button class = 'button unbuyable' onclick = 'CPSecUpgrade()' id = 'CP2'>Increase your CP/sec by 1. Cost: Divides your number by <div id = 'secCPCost'>10B</div></button>
+                                <button class = 'button unbuyable' onclick = 'numUpgrade()' id = 'Num1'>Increase growth rate by 0.25 percent. Cost: Divides your number by<span id = 'numCost'>1000</span></button>
+                                <button class = 'button unbuyable' onclick = 'maxCPUpgrade()' id = 'CP1'>Increase your max CP by 1. Cost: Divides your number by <span id = 'maxCPCost'>1000</span></button>
+                                <button class = 'button unbuyable' onclick = 'CPSecUpgrade()' id = 'CP2'>Increase your CP/sec by 1. Cost: Divides your number by <span id = 'secCPCost'>10B</span></button>
                         </div>                
                         <div id="microPrestigeElement" style="display:none">
                                 Your number has overflowed, you must reset to continue.
                                 <button class="button unbuyable" onclick="microPrestige()">Reset your number, but get 1 Micro essence for upgrades.</button>
                         </div>
-                        <button class = 'button unbuyable' onclick = 'microPrestige()' style = 'display:none' id = 'microReset'>Reset your number, but gain <div id = 'ueOnReset'>1</div> Micro Essence</button>
+                        <button class = 'button unbuyable' onclick = 'microPrestige()' style = 'display:none' id = 'microReset'>Reset your number, but gain <span id = 'ueOnReset'>1</span> Micro Essence</button>
 			<button class = 'button unbuyable' onclick = 'milliPrestige()' style = 'display:none' id = 'milliReset'>Reset your number, micro essence, and A and B upgrades, but gain <div id = 'meOnReset'>1</div>Milli Essence</button>
                 </div>
                 <div id="options" style="display:none">
@@ -106,11 +106,11 @@
 			</table>
 		</div>
 		<div id = 'stats' style = 'display:none; text-align:left'>
-			<p>You have played for<div id = 'timePlayed'>0 seconds</div></p>
-			<p>You have clicked the button<div id = 'buttonClicks'>0</div>times.</p>
-			<p>You have micro prestiged <div id = 'microPrestiges'>0</div> times.</p>
-			<p>Time in this micro prestige: <div id = 'microTime'>0 seconds</div></p>
-			<p>Total µE gained: <div id = 'totalue'>0</div></p>
+			<p>You have played for<span id = 'timePlayed'>0 seconds</span></p>
+			<p>You have clicked the button<span id = 'buttonClicks'>0</span>times.</p>
+			<p>You have micro prestiged <span id = 'microPrestiges'>0</span> times.</p>
+			<p>Time in this micro prestige: <span id = 'microTime'>0 seconds</span></p>
+			<p>Total µE gained: <span id = 'totalue'>0</span></p>
 		</div>
 		<center><h3><a href="https://itmarki.github.io/exponent-madness/changelog.html">Changelog</a></h3></center>
         </body>
