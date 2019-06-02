@@ -7,15 +7,17 @@
                 <link rel="stylesheet" type="text/css" href="style.css">
         </head>
         <body onload="init()">
+		<div id="top">
                 <p>Number: <div id="numDisplay">1</div></p>
-                <p style="text-align:right;"><div id="microEssenceInfo" style="display:none">Micro Essence: <div id="microEssenceDisplay">0</div></div></p>
-		<p><div id = 'milliEssenceInfo' style = 'display:none'>Milli Essence: <div id = 'milliEssenceDisplay'>0</div></div></p>
+                <p style="text-align:right;"><div id="microEssenceInfo" style="display:none">Micro Essence: <span id="microEssenceDisplay">0</span></div></p>
+		<p><div id = 'milliEssenceInfo' style = 'display:none'>Milli Essence: <span id = 'milliEssenceDisplay'>0</span></div></p>
 		<button class="button unbuyable" onclick="switchTab('main')">Main</button>
                 <button class="button unbuyable" onclick="switchTab('options')">Options</button>
 		<button class = 'button unbuyable' onclick = 'switchTab("stats")'>Statistics</button>
                 <button id="microPrestigeTab" class="button unbuyable" style="display:none" onclick="switchTab('microprestige')">Micro Prestige</button>
                 <button id = 'breakNumeralsTab' class = 'button unbuyable' style = 'display:none' onclick = "switchTab('breaknumerals')">Break Numerals</button>
 		<button id = 'milliPrestigeTab' class = 'button unbuyable' style = 'display:none' onclick = 'switchTab("milliprestige")'>Milli Prestige</button>
+</div>
 		<div id="main" style="display:inline-block">
                         <div id="increaseNumber">
                                 <button class="button unbuyable" onclick="step()">Multiply the number by <span id="multDisplay">1.5</span> for 3 Click Points</button>
