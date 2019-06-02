@@ -630,7 +630,7 @@ function load(save) {
 	game.microPrestige.essence = new Decimal(game.microPrestige.essence)
 	game.microPrestige.totalEssence = new Decimal(game.microPrestige.totalEssence)
 	update("numDisplay",formatDecimal(game.num));
-	update("notationDisplay",game.notation);
+	update("notationDisplay",notationArray[game.notation]);
 	update("multDisplay",getCurrentClickAmt());
 	update("microEssenceDisplay",formatDecimal(game.microPrestige.essence));
 	update('milliEssenceDisplay',format(game.milliPrestige.essence))
