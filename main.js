@@ -481,7 +481,7 @@ function format(a,placesUnder1000=3) { // formats numbers for display
 		m = 1;
 		e++;
 	}
-	if(a<1000) return new Decimal(a).toFixed(placesUnder1000).replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/,'$1') // show up to 3 places by default
+	if(a<1000) return new Decimal(a.toFixed(placesUnder1000)).toFixed(placesUnder1000).replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/,'$1') // show up to 3 places by default
 	if (game.notation==2) return m+"e"+e; // scientific notation
 	if (game.notation==4) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
