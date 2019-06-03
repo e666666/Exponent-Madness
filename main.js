@@ -264,11 +264,16 @@ function getCurrentClickAmt(){
         return base
 }
 
+function getStepCost() {
+	return game.Bupegs.upgrades.includes('B5')?2:3
+}
+
 function step() { // clicks button
-	if(game.Bupgs.upgrades.includes('B5') && game.clickPoints.clickPoints >= 2) {
+	let cost = getStepCost()
+	if(game.clickPoints.clickPoints >= cost) {
 	   	game.num = game.num.mul(getCurrentClickAmt()); // updates number
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
-		game.clickPoints.clickPoints -= 2
+		game.clickPoints.clickPoints -= cost
 		update("clickPoints",game.clickPoints.clickPoints); 
 		if(game.Bupgs.upgrades.includes('B7')) {
 			game.microPrestige.essence = game.microPrestige.essence.add(1)
@@ -276,18 +281,6 @@ function step() { // clicks button
 		}
 		game.buttonClicks ++
 	}
-	else if(game.clickPoints.clickPoints >= 3) {
-		game.num = game.num.mul(getCurrentClickAmt()); // updates number
-		update("numDisplay",formatDecimal(game.num)); // update number on the page
-		game.clickPoints.clickPoints -= 3
-		update("clickPoints",game.clickPoints.clickPoints); 
-		if(game.Bupgs.upgrades.includes('B7')) {
-			game.microPrestige.essence = game.microPrestige.essence.add(1)
-			game.microPrestige.totalEssence = game.microPrestige.totalEssence.add(1)
-		}
-		game.buttonClicks ++
-	}
-	else return 0;
 }
 function numUpgrade() {
 	if(game.num.gte(game.numUpgradeCost)) {
@@ -684,7 +677,7 @@ function updateThings() { // various updates on each tick
 	if(game.clickPoints.clickPoints > game.clickPoints.maxClickPoints) {
 		game.clickPoints.clickPoints = game.clickPoints.maxClickPoints
 	}
-	if(game.Bupgs.upgrades.includes('B10') && (game.clickPoints.clickPoints >= 3 || (game.clickPoints.clickPoints >= 2 && game.Bupgs.upgrades.includes('B5')))) {
+	if(game.Bupgs.upgrades.includes('B10') && game.clickPoints.clickPoints >= getStepCost()) {
 		step()
 	}
 	update('clickPoints',format(game.clickPoints.clickPoints))
