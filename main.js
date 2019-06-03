@@ -59,6 +59,7 @@ function getDefaultSave(){
 
 
 var game = getDefaultSave()
+var errorOccured = false
 let updateIntervalId = 0
 
 function updateBaseClick(){
@@ -525,7 +526,7 @@ function switchTab(tabName) { // alternates between the various tabs
 	currentTab=tabName;
 }
 function save() { //save game
-	if (updateIntervalId != 0) localStorage.setItem('save',btoa(JSON.stringify(game)))
+	if (updateIntervalId != 0 && !errorOccured) localStorage.setItem('save',btoa(JSON.stringify(game)))
 }
 function load(save) {
 	try {
@@ -669,7 +670,7 @@ function hardReset() {
 
 function updateThings(diff) { // 1000 diff = 1 second
 	var thisUpdate = new Date().getTime()
-        if (typeof diff === 'undefined') var diff = Math.min(thisUpdate - player.lastUpdate, 21600000);
+        if (typeof diff === 'undefined') var diff = Math.min(thisUpdate - game.lastUpdate, 21600000);
 	let secondPassed = diff/1000
 	var ooms = Math.floor(Math.log10(game.num));
 	update("numDisplay",formatDecimal(game.num));
@@ -719,7 +720,7 @@ function updateThings(diff) { // 1000 diff = 1 second
 	update('microTime',formatTime(game.timeInMicroPrestige))
 	update('totalue',formatDecimal(game.microPrestige.totalEssence))
 	updateButtons()
-	player.lastUpdate = thisUpdate
+	game.lastUpdate = thisUpdate
 }
 
 function stopInterval() {
@@ -728,6 +729,7 @@ function stopInterval() {
 }
 
 function startInterval() {
+	if (errorOccured) return;
 	if (updateIntervalId != 0) stopInterval()
 	updateIntervalId = setInterval(updateThings,50)
 }
