@@ -469,7 +469,11 @@ function format(a,placesUnder1000=3) { // formats numbers for display
 		m = 1;
 		e++;
 	}
-	if(a<1000) return a.toFixed(placesUnder1000).replace(/\.?0*$/,'') // show up to 3 places by default
+	if(a<1000) {
+		let result = a.toFixed(placesUnder1000).replace(/\.?0*$/,'') // show up to 3 places by default
+		let expectedLength = Math.floor(Math.log10(a))+2+placesUnder1000)
+		if (result.length > expectedLength) return result.substring(0,expectedLength)
+		return result
 	if (game.notation==2) return m+"e"+e; // scientific notation
 	if (game.notation==4) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
