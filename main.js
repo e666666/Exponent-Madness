@@ -485,7 +485,7 @@ function formatDecimal(a) {
 		m = 1;
 		e++;
 	}
-	if(a.lt(1000)) return a.toFixed(2);
+	if(a.lt(1000)) return parseFloat(a.toFixed(2));
 	if (game.notation==2) return m+"e"+e; // scientific notation
 	if (game.notation==4) return "e"+(Math.round(a.log(10).mul(1000)).div(1000)); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
