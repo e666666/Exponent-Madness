@@ -471,7 +471,7 @@ function format(a,placesUnder1000=3) { // formats numbers for display
 	}
 	if(a<1000) {
 		let result = a.toFixed(placesUnder1000).replace(/\.?0*$/,'') // show up to 3 places by default
-		let expectedLength = Math.floor(Math.log10(a))+2+placesUnder1000)
+		let expectedLength = Math.floor(Math.log10(a))+2+placesUnder1000
 		if (result.length > expectedLength) return result.substring(0,expectedLength)
 		return result
 	if (game.notation==2) return m+"e"+e; // scientific notation
