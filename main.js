@@ -73,7 +73,7 @@ function updateBaseClick(){
 function microPrestige() {
 	showElement("microEssenceInfo");
 	showElement("microPrestigeTab");
-	showElement("increaseNumber");
+	showElement("numberButtons");
 	hideElement("microPrestigeElement");
 	hideElement('microReset')
 	game = {
