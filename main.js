@@ -59,6 +59,7 @@ function getDefaultSave(){
 
 
 var game = getDefaultSave()
+let updateIntervalId = 0
 
 function updateBaseClick(){
         game.mult = 1.5
@@ -523,7 +524,7 @@ function switchTab(tabName) { // alternates between the various tabs
 	currentTab=tabName;
 }
 function save() { //save game
-	localStorage.setItem('save',btoa(JSON.stringify(game)))
+	if (updateIntervalId != 0) localStorage.setItem('save',btoa(JSON.stringify(game)))
 }
 function load(save) {
 	try {
@@ -718,8 +719,18 @@ function updateThings() { // various updates on each tick
 	updateButtons()
 }
 
+function stopInterval() {
+	clearInterval(updateIntervalId)
+	updateIntervalId = 0
+}
+
+function startInterval() {
+	if (updateIntervalId != 0) stopInterval()
+	updateIntervalId = setInterval(updateThings,50)
+}
+
 function init() { // initialize
 	if(localStorage.getItem('save')!=null) load(localStorage.getItem('save'))
+	startInterval()
+	setInterval(save,10000)
 }
-setInterval(updateThings,50);
-setInterval(save,10000);
