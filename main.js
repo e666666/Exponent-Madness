@@ -278,7 +278,7 @@ function step() { // clicks button
 	   	game.num = game.num.mul(getCurrentClickAmt()); // updates number
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
 		game.clickPoints.clickPoints -= cost
-		update("clickPoints",game.clickPoints.clickPoints); 
+		update("clickPoints",format(game.clickPoints.clickPoints,1)); 
 		if(game.Bupgs.upgrades.includes('B7')) {
 			game.microPrestige.essence = game.microPrestige.essence.add(1)
 			game.microPrestige.totalEssence = game.microPrestige.totalEssence.add(1)
@@ -469,13 +469,7 @@ function format(a,placesUnder1000=3) { // formats numbers for display
 		m = 1;
 		e++;
 	}
-	if(a<1000) {
-		return "test"
-		let result = String(a.toFixed(placesUnder1000).replace(/\.?0*$/,'')) // show up to 3 places by default
-		let expectedLength = Math.floor(Math.log10(a))+2+placesUnder1000
-		if (result.length > expectedLength) return result.substring(0,expectedLength)
-		return result
-	}
+	if(a<1000) return a.toFixed(placesUnder1000).replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/,'$1') // show up to 3 places by default
 	if (game.notation==2) return m+"e"+e; // scientific notation
 	if (game.notation==4) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
