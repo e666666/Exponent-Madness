@@ -462,18 +462,6 @@ function abbreviate2(i,short) {
 	}
 	return returning;
 }
-function roundNumber(num, scale) { // https://stackoverflow.com/a/12830454
-  if(!("" + num).includes("e")) {
-    return +(Math.round(num + "e+" + scale)  + "e-" + scale);
-  } else {
-    var arr = ("" + num).split("e");
-    var sig = ""
-    if(+arr[1] + scale > 0) {
-      sig = "+";
-    }
-    return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
-  }
-}
 function format(a,placesUnder1000=3) { // formats numbers for display
 	var e = Math.floor(Math.log10(a)); // exponent of number
 	var m = Math.round(Math.pow(10,Math.log10(a)-e)*1000)/1000; // mantissa of number
@@ -481,7 +469,7 @@ function format(a,placesUnder1000=3) { // formats numbers for display
 		m = 1;
 		e++;
 	}
-	if(a<1000) return new Decimal(a.toFixed(placesUnder1000)).toFixed(placesUnder1000).replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/,'$1') // show up to 3 places by default
+	if(a<1000) return sprintf(`%.${placesUnder1000}f`, a) // show up to 3 places by default
 	if (game.notation==2) return m+"e"+e; // scientific notation
 	if (game.notation==4) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
