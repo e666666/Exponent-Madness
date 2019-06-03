@@ -197,6 +197,7 @@ function updateButtons() {
 	else{
 		updateClass('Num1','unbuyable')
 	}
+	update('CP1Increase',game.Aupgs.upgrades.includes('A3')?2:1)
 	if(game.num.gte(game.clickPoints.maxCPCost)) {
 		updateClass('CP1','buyable')
 	}
