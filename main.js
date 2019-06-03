@@ -187,7 +187,7 @@ function updateClass(what,whatClass) {
 	element.classList.add(whatClass)
 }
 function updateButtons() {
-	updateClass('increaseNumberBtn',game.clickPoints.clickPoints>getStepCost()?'buyable':'unbuyable')
+	updateClass('increaseNumberBtn',game.clickPoints.clickPoints>=getStepCost()?'buyable':'unbuyable')
 	// Gonna make these DRYer when i want to
 	if(game.num.gte(game.numUpgradeCost)) {
 		updateClass('Num1','buyable')
