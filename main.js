@@ -2,7 +2,7 @@ function getDefaultSave(){
 	var game = { // game object to store all save-pertinent info
 	        num: new Decimal(1), // number that we are increasing
 	        mult: 1.5, // number that it multiplies by on click
-        	countdown: 0, // counter for the button cooldown
+        	lastUpdate: new Date().getTime(),
 		buttonClicks: 0,
 		secondsPlayed:0,
 		timeInMicroPrestige:0,
@@ -85,7 +85,7 @@ function microPrestige() {
 		numUpgradeBoost:1,
 		numeralsBroken:game.numeralsBroken,
                 mult: 1.5,
-                countdown: 0,
+                lastUpdate: game.lastUpdate,
 		clickPoints:{
 			clickPoints: 0,
 			maxClickPoints: game.Aupgs.upgrades.includes('A3')? 6:3,
@@ -135,7 +135,7 @@ function milliPrestige() {
 		numUpgradeBoost:1,
 		numeralsBroken:false,
                 mult: 1.5,
-                countdown: 0,
+                lastUpdate: game.lastUpdate,
 		clickPoints:{
 			clickPoints: 0,
 			maxClickPoints: game.Aupgs.upgrades.includes('A3')? 6:3,
@@ -461,14 +461,14 @@ function abbreviate2(i,short) {
 	}
 	return returning;
 }
-function format(a) { // formats numbers for display
+function format(a,placesUnder1000=3) { // formats numbers for display
 	var e = Math.floor(Math.log10(a)); // exponent of number
 	var m = Math.round(Math.pow(10,Math.log10(a)-e)*1000)/1000; // mantissa of number
 	if (m>9.9995) { // would round up to 10; this avoids a problem
 		m = 1;
 		e++;
 	}
-	if(a<1000) return Math.round(a*1000)/1000; // show up to 3 places
+	if(a<1000) return a.toFixed(placesUnder1000).toString() // show up to 3 places by default
 	if (game.notation==2) return m+"e"+e; // scientific notation
 	if (game.notation==4) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
@@ -494,6 +494,7 @@ function formatDecimal(a) {
 	if(game.notation==3) return m2+"e"+e2; // engineering notation
 }
 function formatTime(time) {
+	time = Math.floor(time)
 	if(time < 60) return String(time) + ' seconds'
 	if(time < 3600) {
 		var mins = Math.floor(time/60)
@@ -612,6 +613,7 @@ function load(save) {
 			upgrades:[]
 		}
 	}
+	if (game.lastUpdate === undefined) game.lastUpdate = new Date().getTime()
 	if(game.microPrestige.times > 0) {
 		showElement("microEssenceInfo");
 		showElement("microPrestigeTab");
@@ -665,25 +667,25 @@ function hardReset() {
 	}
 }
 
-function updateThings() { // various updates on each tick
+function updateThings(diff) { // 1000 diff = 1 second
+	var thisUpdate = new Date().getTime()
+        if (typeof diff === 'undefined') var diff = Math.min(thisUpdate - player.lastUpdate, 21600000);
+	let secondPassed = diff/1000
 	var ooms = Math.floor(Math.log10(game.num));
 	update("numDisplay",formatDecimal(game.num));
-	if(game.countdown>50) game.countdown = game.countdown-50;
-	if(game.countdown<=50&&game.countdown>=0) game.countdown = 0;
-	if(game.countdown === 0) {
-		game.clickPoints.clickPoints += game.clickPoints.clickPointsPerSec
-		game.countdown = 1000
-		game.secondsPlayed ++
-		game.timeInMicroPrestige ++
-		game.timeInMilliPrestige ++
-	}
+	
+	game.clickPoints.clickPoints += game.clickPoints.clickPointsPerSec * secondPassed
+	game.secondsPlayed += secondPassed
+	game.timeInMicroPrestige += secondPassed
+	game.timeInMilliPrestige += secondPassed
+	
 	if(game.clickPoints.clickPoints > game.clickPoints.maxClickPoints) {
 		game.clickPoints.clickPoints = game.clickPoints.maxClickPoints
 	}
 	if(game.Bupgs.upgrades.includes('B10') && game.clickPoints.clickPoints >= getStepCost()) {
 		step()
 	}
-	update('clickPoints',format(game.clickPoints.clickPoints))
+	update('clickPoints',format(game.clickPoints.clickPoints,1))
 	update("multDisplay",format(getCurrentClickAmt()));
 	if(game.num.gte(1e33)) { // Number overflow?
 		if(!game.numeralsBroken) {
@@ -717,6 +719,7 @@ function updateThings() { // various updates on each tick
 	update('microTime',formatTime(game.timeInMicroPrestige))
 	update('totalue',formatDecimal(game.microPrestige.totalEssence))
 	updateButtons()
+	player.lastUpdate = thisUpdate
 }
 
 function stopInterval() {
