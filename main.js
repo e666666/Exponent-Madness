@@ -267,7 +267,7 @@ function getCurrentClickAmt(){
 }
 
 function getStepCost() {
-	return game.Bupegs.upgrades.includes('B5')?2:3
+	return game.Bupgs.upgrades.includes('B5')?2:3
 }
 
 function step() { // clicks button
