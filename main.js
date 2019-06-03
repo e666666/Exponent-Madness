@@ -690,7 +690,8 @@ function updateThings(diff) { // 1000 diff = 1 second
 	update("multDisplay",format(getCurrentClickAmt()));
 	if(game.num.gte(1e33)) { // Number overflow?
 		if(!game.numeralsBroken) {
-			hideElement("increaseNumber");
+			hideElement("numberButtons");
+			game.num = new Decimal(1e33)
 			showElement("microPrestigeElement");
 		}
 		else {
