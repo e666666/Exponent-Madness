@@ -633,7 +633,7 @@ function load(save) {
 	if(game.microPrestige.times >= 100) {
 		showElement('breakNumeralsTab')
 	}
-	game.num = new Decimal(game.num)
+	game.num = Decimal.max(new Decimal(1), new Decimal(game.num))
 	game.numUpgradeCost = new Decimal(game.numUpgradeCost)
 	game.clickPoints.maxCPCost = new Decimal(game.clickPoints.maxCPCost)
 	game.clickPoints.secCPCost = new Decimal(game.clickPoints.secCPCost)
