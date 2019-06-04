@@ -276,7 +276,8 @@ function getStepCost() {
 function step() { // clicks button
 	let cost = getStepCost()
 	if(game.clickPoints.clickPoints >= cost) {
-	   	game.num = game.num.mul(getCurrentClickAmt()); // updates number
+	   	if(!game.numeralsBroken) game.num = Decimal.max(new Decimal("1e33"), game.num.mul(getCurrentClickAmt())); // updates number and caps it at e33
+		else game.num = game.num.mul(getCurrentClickAmt())
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
 		game.clickPoints.clickPoints -= cost
 		update("clickPoints",format(game.clickPoints.clickPoints,1)); 
@@ -689,10 +690,10 @@ function updateThings(diff) { // 1000 diff = 1 second
 	}
 	update('clickPoints',format(game.clickPoints.clickPoints,1))
 	update("multDisplay",format(getCurrentClickAmt()));
-	if(game.num.gte(1e33)) { // Number overflow?
+	if(game.num.gte(new Decimal("1e33"))) { // Number overflow?
 		if(!game.numeralsBroken) {
 			hideElement("numberButtons");
-			game.num = new Decimal(1e33)
+			game.num = new Decimal("1e33")
 			showElement("microPrestigeElement");
 		}
 		else {
