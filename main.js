@@ -717,7 +717,7 @@ function updateThings(diff) { // 1000 diff = 1 second
 	update("microEssenceDisplay",formatDecimal(game.microPrestige.essence));
         updateBaseClick()
 	updateCosts()
-	update('A6power',formatDecimal(getUpgradePower('A6'))
+	update('A6power',formatDecimal(getUpgradePower('A6')))
 	update("A7power",format(1+Math.log10(game.microPrestige.times)/10));
 	update('A9power',format(1 + Math.log10(game.clickPoints.clickPoints)/10))
 	update("microEssenceMult",format(Math.pow(1.1,game.Aupgs.repeatable.amount)));
