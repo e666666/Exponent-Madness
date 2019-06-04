@@ -699,7 +699,7 @@ function updateThings(diff) { // 1000 diff = 1 second
 	}
 	update('clickPoints',format(game.clickPoints.clickPoints,1))
 	update("multDisplay",format(getCurrentClickAmt()));
-	update('cpCost',game.Bupgs.includes('B5')?2:3)
+	update('cpCost',getStepCost())
 	if(game.num.gte(new Decimal("1e33"))) { // Number overflow?
 		if(!game.numeralsBroken) {
 			hideElement("numberButtons");
