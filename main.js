@@ -259,7 +259,7 @@ function getPercentageGrowthFactor(){
 function getUpgradePower(name) {
 	switch (name) {
 		case "A6":
-			return Decimal.pow(game.microPrestige.essence,new Decimal(0.3).plus(1))
+			return Decimal.pow(game.microPrestige.essence,new Decimal(0.3)).plus(1)
 			break;
 		
 	}
