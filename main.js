@@ -276,7 +276,7 @@ function getStepCost() {
 function step() { // clicks button
 	let cost = getStepCost()
 	if(game.clickPoints.clickPoints >= cost) {
-	   	if(!game.numeralsBroken) game.num = Decimal.max(new Decimal("1e33"), game.num.mul(getCurrentClickAmt())); // updates number and caps it at e33
+	   	if(!game.numeralsBroken) game.num = Decimal.min(new Decimal("1e33"), game.num.mul(getCurrentClickAmt())); // updates number and caps it at e33
 		else game.num = game.num.mul(getCurrentClickAmt())
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
 		game.clickPoints.clickPoints -= cost
