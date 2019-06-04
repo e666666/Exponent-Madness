@@ -256,13 +256,22 @@ function getPercentageGrowthFactor(){
 	return mult
 }
 
+function getUpgradePower(name) {
+	switch (name) {
+		case "A6":
+			return Decimal.pow(game.microPrestige.essence,new Decimal(0.3).plus(1)
+			break;
+		
+	}
+}
+
 function getCurrentClickAmt(){
         var base = game.mult
         if (game.Aupgs.upgrades.includes("A8") && game.num.lt(1e33)) base *= 5
         base *= getPercentageGrowthFactor()
         if (game.Aupgs.upgrades.includes("A7")) base *= 1+Math.log10(game.microPrestige.times)/10
 	base *= game.numUpgradeBoost
-	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + game.microPrestige.essence.pow(0.3)
+	if(game.Aupgs.upgrades.includes('A6')) base *= getUpgradePower('A6').toNumber()
 	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints+1)/10
 	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + game.microPrestige.essence.add(1).log(10)/300
 	if(game.Bupgs.upgrades.includes('B8')) base *= 1 + Math.log10(game.buttonClicks + 1)/310
@@ -708,7 +717,7 @@ function updateThings(diff) { // 1000 diff = 1 second
 	update("microEssenceDisplay",formatDecimal(game.microPrestige.essence));
         updateBaseClick()
 	updateCosts()
-	update('A6power',format(1 + Math.pow(game.microPrestige.essence,0.3)))
+	update('A6power',formatDecimal(getUpgradePower('A6'))
 	update("A7power",format(1+Math.log10(game.microPrestige.times)/10));
 	update('A9power',format(1 + Math.log10(game.clickPoints.clickPoints)/10))
 	update("microEssenceMult",format(Math.pow(1.1,game.Aupgs.repeatable.amount)));
