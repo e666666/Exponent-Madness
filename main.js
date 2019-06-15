@@ -373,7 +373,7 @@ function buyBupg(number) {
 
 function updateCosts() {
   for (let i = 4; i < 12; i++) {
-    update(`B{i.toString()}Cost`, update(game.Bupgs.cost[i-1]))
+    update(`B{i.toString()}Cost`, game.Bupgs.cost[i-1])
   }
 }
 
