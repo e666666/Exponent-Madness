@@ -12,7 +12,7 @@
          var extra = !col ? '' : '\ncolumn: ' + col;
          extra += !error ? '' : '\nerror: ' + error;
          // You can view the information in an alert to see things working like this:
-         alert("\nurl: " + url + "\nline: " + line + "\nerror:" + msg + extra);
+         alert(`File: ${url.split("/").pop()}\nLine: ${line}\nError: ${msg}\n${extra}`)
          alert("Will stop game now to protect your savefile")
          errorOccured = true
          stopInterval()
