@@ -375,7 +375,7 @@ function updateCosts() {
   for (let i = 4; i < 12; i++) {
     alert(i)
     alert(`B{i.toString()}Cost`)
-    alert(game.Bupgs.cost[i-1)
+    alert(game.Bupgs.cost[i-1])
     update(`B{i.toString()}Cost`, game.Bupgs.cost[i-1].toString())
   }
 }
