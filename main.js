@@ -643,6 +643,7 @@ function load(save) {
     game.clickPoints.secCPCost = new Decimal(game.clickPoints.secCPCost)
     game.microPrestige.essence = new Decimal(game.microPrestige.essence)
     game.microPrestige.totalEssence = new Decimal(game.microPrestige.totalEssence)
+    update("break", player.numeralsBroken?"Fix Numerals":"Break Numerals!")
     update("numDisplay", formatDecimal(game.num));
     update("notationDisplay", notationArray[game.notation]);
     update("multDisplay", getCurrentClickAmt());
