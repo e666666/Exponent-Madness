@@ -372,12 +372,9 @@ function buyBupg(number) {
 }
 
 function updateCosts() {
-  update('B5Cost', format(2500))
-  update('B6Cost', format(4000))
-  update('B7Cost', format(18000))
-  update('B9Cost', format(2.4e5))
-  update('B10Cost', format(8e5))
-  update('B11Cost', format(2.5e6))
+  for (let i = 1; i < 12; i++) {
+    update(`B{i.toString()}`, update(game.Bupgs.cost[i-1]))
+  }
 }
 
 function breakNumerals() {
